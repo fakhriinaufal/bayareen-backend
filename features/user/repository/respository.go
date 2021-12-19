@@ -33,3 +33,13 @@ func (repo *mySqlRepository) GetAll() []user.UserCore {
 
 	return toCoreSlice(records)
 }
+
+func (repo *mySqlRepository) GetById(id int) (user.UserCore, error) {
+	resp := User{}
+
+	if err := repo.Conn.First(&resp, id).Error; err != nil {
+		return user.UserCore{}, err
+	}
+
+	return resp.toCore(), nil
+}

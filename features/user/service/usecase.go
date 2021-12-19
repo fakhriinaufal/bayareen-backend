@@ -36,3 +36,12 @@ func (uu *userUseCase) GetAll() []user.UserCore {
 	resp := uu.userData.GetAll()
 	return resp
 }
+
+func (uu *userUseCase) GetById(id int) (user.UserCore, error) {
+	resp, err := uu.userData.GetById(id)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	return resp, nil
+}
