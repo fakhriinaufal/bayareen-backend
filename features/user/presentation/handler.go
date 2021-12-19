@@ -58,3 +58,23 @@ func (uh *UserHandler) GetUserById(c echo.Context) error {
 		"data":    presentation_response.FromCore(&resp),
 	})
 }
+
+func (uh *UserHandler) Update(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	userRequest := presentation_request.User{}
+
+	c.Bind(&userRequest)
+
+	userCore := userRequest.ToCore()
+	userCore.Id = id
+
+	resp, err := uh.userBussiness.Update(userCore)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    presentation_response.FromCore(&resp),
+	})
+}

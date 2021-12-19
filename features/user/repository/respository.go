@@ -43,3 +43,13 @@ func (repo *mySqlRepository) GetById(id int) (user.UserCore, error) {
 
 	return resp.toCore(), nil
 }
+
+func (repo *mySqlRepository) Update(data user.UserCore) (user.UserCore, error) {
+	record := fromCore(data)
+	err := repo.Conn.Save(&record).Error
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	return record.toCore(), nil
+}

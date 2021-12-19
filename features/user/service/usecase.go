@@ -45,3 +45,19 @@ func (uu *userUseCase) GetById(id int) (user.UserCore, error) {
 
 	return resp, nil
 }
+
+func (uu *userUseCase) Update(data user.UserCore) (user.UserCore, error) {
+	existedUser, err := uu.userData.GetById(data.Id)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	data.CreatedAt = existedUser.CreatedAt
+
+	resp, err := uu.userData.Update(data)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	return resp, nil
+}

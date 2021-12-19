@@ -16,10 +16,12 @@ type Business interface {
 	Create(data UserCore) (UserCore, error)
 	GetAll() []UserCore
 	GetById(id int) (UserCore, error)
+	Update(data UserCore) (UserCore, error)
 }
 
 type Data interface {
 	Create(data UserCore) (UserCore, error)
 	GetAll() []UserCore
 	GetById(id int) (UserCore, error)
+	Update(data UserCore) (UserCore, error)
 }
