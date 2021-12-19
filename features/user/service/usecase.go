@@ -61,3 +61,13 @@ func (uu *userUseCase) Update(data user.UserCore) (user.UserCore, error) {
 
 	return resp, nil
 }
+
+func (uu *userUseCase) Delete(id int) error {
+	// check user exist
+	_, err := uu.userData.GetById(id)
+	if err != nil {
+		return err
+	}
+
+	return uu.userData.Delete(id)
+}

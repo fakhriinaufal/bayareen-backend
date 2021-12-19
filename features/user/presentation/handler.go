@@ -4,6 +4,7 @@ import (
 	"bayareen-backend/features/user"
 	presentation_request "bayareen-backend/features/user/presentation/request"
 	presentation_response "bayareen-backend/features/user/presentation/response"
+	"fmt"
 	"net/http"
 	"strconv"
 
@@ -76,5 +77,19 @@ func (uh *UserHandler) Update(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success",
 		"data":    presentation_response.FromCore(&resp),
+	})
+}
+
+func (uh *UserHandler) Delete(c echo.Context) error {
+	id, _ := strconv.Atoi(c.Param("id"))
+	fmt.Print("id", id)
+
+	if err := uh.userBussiness.Delete(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    []int{},
 	})
 }

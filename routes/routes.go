@@ -18,6 +18,7 @@ func New() *echo.Echo {
 	user.GET("", presenter.UserPresenter.GetAllUser)
 	user.GET("/:id", presenter.UserPresenter.GetUserById)
 	user.PATCH("/:id", presenter.UserPresenter.Update)
+	user.DELETE("/:id", presenter.UserPresenter.Delete)
 
 	return e
 }

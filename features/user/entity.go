@@ -17,6 +17,7 @@ type Business interface {
 	GetAll() []UserCore
 	GetById(id int) (UserCore, error)
 	Update(data UserCore) (UserCore, error)
+	Delete(id int) error
 }
 
 type Data interface {
@@ -24,4 +25,5 @@ type Data interface {
 	GetAll() []UserCore
 	GetById(id int) (UserCore, error)
 	Update(data UserCore) (UserCore, error)
+	Delete(id int) error
 }
