@@ -47,6 +47,10 @@ func (uu *userUseCase) GetById(id int) (user.UserCore, error) {
 }
 
 func (uu *userUseCase) Update(data user.UserCore) (user.UserCore, error) {
+	if err := uu.validator.Struct(data); err != nil {
+		return user.UserCore{}, err
+	}
+
 	existedUser, err := uu.userData.GetById(data.Id)
 	if err != nil {
 		return user.UserCore{}, err
