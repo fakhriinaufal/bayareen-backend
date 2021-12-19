@@ -14,8 +14,10 @@ type UserCore struct {
 
 type Business interface {
 	Create(data UserCore) (UserCore, error)
+	GetAll() []UserCore
 }
 
 type Data interface {
 	Create(data UserCore) (UserCore, error)
+	GetAll() []UserCore
 }

@@ -34,3 +34,12 @@ func (uh *UserHandler) CreateUser(c echo.Context) error {
 		"data":    presentation_response.FromCore(&resp),
 	})
 }
+
+func (uh *UserHandler) GetAllUser(c echo.Context) error {
+	resp := uh.userBussiness.GetAll()
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    presentation_response.FromCoreSlice(resp),
+	})
+}

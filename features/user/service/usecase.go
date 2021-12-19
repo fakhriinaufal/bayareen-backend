@@ -31,3 +31,8 @@ func (uu *userUseCase) Create(data user.UserCore) (resp user.UserCore, err error
 
 	return resp, nil
 }
+
+func (uu *userUseCase) GetAll() []user.UserCore {
+	resp := uu.userData.GetAll()
+	return resp
+}

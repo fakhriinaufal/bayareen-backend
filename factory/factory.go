@@ -3,8 +3,8 @@ package factory
 import (
 	"bayareen-backend/driver"
 	// user domain
-	_userData "bayareen-backend/features/user/data"
 	_userHandler "bayareen-backend/features/user/presentation"
+	_userData "bayareen-backend/features/user/repository"
 	_userUsecase "bayareen-backend/features/user/service"
 )
 

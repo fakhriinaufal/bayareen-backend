@@ -15,6 +15,7 @@ func New() *echo.Echo {
 
 	user := e.Group("/users")
 	user.POST("", presenter.UserPresenter.CreateUser)
+	user.GET("", presenter.UserPresenter.GetAllUser)
 
 	return e
 }

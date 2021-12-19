@@ -2,7 +2,7 @@ package driver
 
 import (
 	"bayareen-backend/config"
-	_userRepo "bayareen-backend/features/user/data"
+	_userRepo "bayareen-backend/features/user/repository"
 	"fmt"
 	"log"
 
