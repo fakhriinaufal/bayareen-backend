@@ -4,8 +4,8 @@ import "time"
 
 type Core struct {
 	Id        int
-	Name      string
-	ImgUrl    string
+	Name      string `validate:"required"`
+	ImgUrl    string `validate:"required"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 }
