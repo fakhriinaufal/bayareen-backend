@@ -13,9 +13,11 @@ type Core struct {
 type Business interface {
 	Create(Core) (Core, error)
 	GetAll() []Core
+	GetById(id int) (Core, error)
 }
 
 type Data interface {
 	Create(Core) (Core, error)
 	GetAll() []Core
+	GetById(id int) (Core, error)
 }

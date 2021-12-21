@@ -35,3 +35,13 @@ func (cu *categoryUsecase) Create(core categories.Core) (resp categories.Core, e
 func (cu *categoryUsecase) GetAll() []categories.Core {
 	return cu.categoryData.GetAll()
 }
+
+func (cu *categoryUsecase) GetById(id int) (categories.Core, error) {
+	resp, err := cu.categoryData.GetById(id)
+
+	if err != nil {
+		return categories.Core{}, err
+	}
+
+	return resp, nil
+}

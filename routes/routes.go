@@ -23,6 +23,7 @@ func New() *echo.Echo {
 	category := e.Group("/categories")
 	category.POST("", presenter.CategoryPresenter.CreateCategory)
 	category.GET("", presenter.CategoryPresenter.GetAllCategory)
+	category.GET("/:id", presenter.CategoryPresenter.GetCategoryById)
 
 	return e
 }

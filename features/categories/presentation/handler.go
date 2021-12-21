@@ -5,6 +5,7 @@ import (
 	category_request "bayareen-backend/features/categories/presentation/request"
 	category_response "bayareen-backend/features/categories/presentation/response"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -47,4 +48,23 @@ func (ch *CategoryHandler) GetAllCategory(c echo.Context) error {
 		"message": "success",
 		"data":    category_response.FromCoreSlice(resp),
 	})
+}
+
+func (ch *CategoryHandler) GetCategoryById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+
+	resp, err := ch.categoryBusiness.GetById(id)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err)
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    category_response.FromCore(&resp),
+	})
+
 }

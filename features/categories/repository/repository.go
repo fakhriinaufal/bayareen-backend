@@ -31,3 +31,16 @@ func (repo *postgreRepository) GetAll() []categories.Core {
 
 	return ToCoreSlice(&resp)
 }
+
+func (repo *postgreRepository) GetById(id int) (categories.Core, error) {
+	record := Category{
+		Id: id,
+	}
+
+	err := repo.Conn.First(&record).Error
+	if err != nil {
+		return categories.Core{}, err
+	}
+
+	return record.ToCore(), nil
+}
