@@ -31,3 +31,7 @@ func (cu *categoryUsecase) Create(core categories.Core) (resp categories.Core, e
 
 	return resp, nil
 }
+
+func (cu *categoryUsecase) GetAll() []categories.Core {
+	return cu.categoryData.GetAll()
+}

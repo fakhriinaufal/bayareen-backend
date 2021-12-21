@@ -24,3 +24,10 @@ func (repo *postgreRepository) Create(core categories.Core) (categories.Core, er
 
 	return record.ToCore(), nil
 }
+
+func (repo *postgreRepository) GetAll() []categories.Core {
+	resp := []Category{}
+	repo.Conn.Find(&resp)
+
+	return ToCoreSlice(&resp)
+}

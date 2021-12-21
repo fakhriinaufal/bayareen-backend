@@ -39,3 +39,12 @@ func (ch *CategoryHandler) CreateCategory(c echo.Context) error {
 		"data":    category_response.FromCore(&resp),
 	})
 }
+
+func (ch *CategoryHandler) GetAllCategory(c echo.Context) error {
+	resp := ch.categoryBusiness.GetAll()
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    category_response.FromCoreSlice(resp),
+	})
+}
