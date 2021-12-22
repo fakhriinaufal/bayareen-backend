@@ -20,5 +20,12 @@ func New() *echo.Echo {
 	user.PATCH("/:id", presenter.UserPresenter.Update)
 	user.DELETE("/:id", presenter.UserPresenter.Delete)
 
+	category := e.Group("/categories")
+	category.POST("", presenter.CategoryPresenter.CreateCategory)
+	category.GET("", presenter.CategoryPresenter.GetAllCategory)
+	category.GET("/:id", presenter.CategoryPresenter.GetCategoryById)
+	category.PATCH("/:id", presenter.CategoryPresenter.UpdateCategoryById)
+	category.DELETE("/:id", presenter.CategoryPresenter.DeleteCategoryById)
+
 	return e
 }
