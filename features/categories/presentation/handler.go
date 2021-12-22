@@ -53,18 +53,43 @@ func (ch *CategoryHandler) GetAllCategory(c echo.Context) error {
 func (ch *CategoryHandler) GetCategoryById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err)
+		return c.JSON(http.StatusBadRequest, err.Error())
 	}
 
 	resp, err := ch.categoryBusiness.GetById(id)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err)
+		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success",
 		"data":    category_response.FromCore(&resp),
 	})
+
+}
+
+func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	categoryRequest := category_request.Category{}
+
+	if err := c.Bind(&categoryRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	categoryCore := categoryRequest.ToCore()
+	categoryCore.Id = id
+
+	_, err = ch.categoryBusiness.Update(categoryCore)
+
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, []int{})
 
 }

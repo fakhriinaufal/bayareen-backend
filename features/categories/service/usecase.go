@@ -45,3 +45,24 @@ func (cu *categoryUsecase) GetById(id int) (categories.Core, error) {
 
 	return resp, nil
 }
+
+func (cu *categoryUsecase) Update(core categories.Core) (resp categories.Core, err error) {
+	if err = cu.validator.Struct(core); err != nil {
+		return categories.Core{}, err
+	}
+
+	existedCategory, err := cu.categoryData.GetById(core.Id)
+	if err != nil {
+		return categories.Core{}, err
+	}
+
+	core.CreatedAt = existedCategory.CreatedAt
+
+	resp, err = cu.categoryData.Update(core)
+
+	if err != nil {
+		return categories.Core{}, err
+	}
+
+	return resp, nil
+}

@@ -24,6 +24,7 @@ func New() *echo.Echo {
 	category.POST("", presenter.CategoryPresenter.CreateCategory)
 	category.GET("", presenter.CategoryPresenter.GetAllCategory)
 	category.GET("/:id", presenter.CategoryPresenter.GetCategoryById)
+	category.PATCH("/:id", presenter.CategoryPresenter.UpdateCategoryById)
 
 	return e
 }
