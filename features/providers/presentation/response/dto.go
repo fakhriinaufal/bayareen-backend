@@ -22,3 +22,13 @@ func FromCore(core *providers.Core) *Provider {
 		UpdatedAt: core.UpdatedAt,
 	}
 }
+
+func FromCoreSlice(coreSlice []providers.Core) []Provider {
+	resp := []Provider{}
+
+	for _, val := range coreSlice {
+		resp = append(resp, *FromCore(&val))
+	}
+
+	return resp
+}

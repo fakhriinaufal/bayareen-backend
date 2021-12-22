@@ -31,3 +31,7 @@ func (pu *providerUsecase) Create(data *providers.Core) (*providers.Core, error)
 
 	return resp, nil
 }
+
+func (pu *providerUsecase) GetAll() []providers.Core {
+	return pu.ProviderData.GetAll()
+}

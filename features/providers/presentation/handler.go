@@ -37,3 +37,12 @@ func (ph *ProviderHandler) Create(c echo.Context) error {
 		"data":    provider_response.FromCore(resp),
 	})
 }
+
+func (ph *ProviderHandler) GetAll(c echo.Context) error {
+	resp := ph.ProviderBusiness.GetAll()
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    provider_response.FromCoreSlice(resp),
+	})
+}

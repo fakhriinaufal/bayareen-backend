@@ -25,3 +25,10 @@ func (repo *posgresRepository) Create(data *providers.Core) (*providers.Core, er
 
 	return record.ToCore(), nil
 }
+
+func (repo *posgresRepository) GetAll() []providers.Core {
+	records := []Provider{}
+	repo.Conn.Find(&records)
+
+	return ToCoreSlice(records)
+}
