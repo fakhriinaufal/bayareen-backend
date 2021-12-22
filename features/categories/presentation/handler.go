@@ -91,5 +91,17 @@ func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusNoContent, []int{})
+}
 
+func (ch *CategoryHandler) DeleteCategoryById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if err = ch.categoryBusiness.Delete(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, []int{})
 }

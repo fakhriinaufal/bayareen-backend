@@ -66,3 +66,7 @@ func (cu *categoryUsecase) Update(core categories.Core) (resp categories.Core, e
 
 	return resp, nil
 }
+
+func (cu *categoryUsecase) Delete(id int) error {
+	return cu.categoryData.Delete(id)
+}

@@ -54,3 +54,7 @@ func (repo *postgreRepository) Update(core categories.Core) (categories.Core, er
 
 	return record.ToCore(), nil
 }
+
+func (repo *postgreRepository) Delete(id int) error {
+	return repo.Conn.Delete(&Category{Id: id}).Error
+}

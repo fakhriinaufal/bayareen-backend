@@ -25,6 +25,7 @@ func New() *echo.Echo {
 	category.GET("", presenter.CategoryPresenter.GetAllCategory)
 	category.GET("/:id", presenter.CategoryPresenter.GetCategoryById)
 	category.PATCH("/:id", presenter.CategoryPresenter.UpdateCategoryById)
+	category.DELETE("/:id", presenter.CategoryPresenter.DeleteCategoryById)
 
 	return e
 }
