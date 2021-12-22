@@ -23,6 +23,7 @@ func New() *echo.Echo {
 	provider := e.Group("/providers")
 	provider.POST("", presenter.ProviderPresenter.Create)
 	provider.GET("", presenter.ProviderPresenter.GetAll)
+	provider.GET("/:id", presenter.ProviderPresenter.GetById)
 
 	return e
 }

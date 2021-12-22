@@ -35,3 +35,12 @@ func (pu *providerUsecase) Create(data *providers.Core) (*providers.Core, error)
 func (pu *providerUsecase) GetAll() []providers.Core {
 	return pu.ProviderData.GetAll()
 }
+
+func (pu *providerUsecase) GetById(id int) (*providers.Core, error) {
+	resp, err := pu.ProviderData.GetById(id)
+	if err != nil {
+		return &providers.Core{}, err
+	}
+
+	return resp, nil
+}
