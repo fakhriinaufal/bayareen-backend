@@ -87,3 +87,16 @@ func (ph *ProviderHandler) Update(c echo.Context) error {
 
 	return c.JSON(http.StatusNoContent, []int{})
 }
+
+func (ph *ProviderHandler) Delete(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if err = ph.ProviderBusiness.Delete(id); err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, []int{})
+}

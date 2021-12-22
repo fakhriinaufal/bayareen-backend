@@ -25,6 +25,7 @@ func New() *echo.Echo {
 	provider.GET("", presenter.ProviderPresenter.GetAll)
 	provider.GET("/:id", presenter.ProviderPresenter.GetById)
 	provider.PATCH("/:id", presenter.ProviderPresenter.Update)
+	provider.DELETE("/:id", presenter.ProviderPresenter.Delete)
 
 	return e
 }

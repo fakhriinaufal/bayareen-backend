@@ -51,3 +51,7 @@ func (repo *posgresRepository) Update(data *providers.Core) (*providers.Core, er
 
 	return record.ToCore(), nil
 }
+
+func (repo *posgresRepository) Delete(id int) error {
+	return repo.Conn.Delete(&Provider{Id: id}).Error
+}

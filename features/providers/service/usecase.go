@@ -65,3 +65,14 @@ func (pu *providerUsecase) Update(data *providers.Core) (*providers.Core, error)
 
 	return resp, nil
 }
+
+func (pu *providerUsecase) Delete(id int) error {
+	var err error
+	_, err = pu.ProviderData.GetById(id)
+
+	if err != nil {
+		return err
+	}
+
+	return pu.ProviderData.Delete(id)
+}
