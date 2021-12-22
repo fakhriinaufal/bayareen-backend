@@ -20,5 +20,8 @@ func New() *echo.Echo {
 	user.PATCH("/:id", presenter.UserPresenter.Update)
 	user.DELETE("/:id", presenter.UserPresenter.Delete)
 
+	provider := e.Group("/providers")
+	provider.POST("", presenter.ProviderPresenter.Create)
+
 	return e
 }

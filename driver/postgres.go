@@ -2,6 +2,7 @@ package driver
 
 import (
 	"bayareen-backend/config"
+	_providerRepo "bayareen-backend/features/providers/repository"
 	_userRepo "bayareen-backend/features/user/repository"
 	"fmt"
 	"log"
@@ -14,6 +15,7 @@ var DB *gorm.DB
 
 func MigrateDB() {
 	DB.AutoMigrate(&_userRepo.User{})
+	DB.AutoMigrate(&_providerRepo.Provider{})
 }
 
 func InitDB() {
