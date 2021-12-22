@@ -64,3 +64,26 @@ func (ph *ProviderHandler) GetById(c echo.Context) error {
 		"data":    provider_response.FromCore(resp),
 	})
 }
+
+func (ph *ProviderHandler) Update(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	providerRequest := provider_request.Provider{}
+
+	if err := c.Bind(&providerRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	core := providerRequest.ToCore()
+	core.Id = id
+
+	_, err = ph.ProviderBusiness.Update(core)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, []int{})
+}
