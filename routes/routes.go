@@ -27,5 +27,8 @@ func New() *echo.Echo {
 	category.PATCH("/:id", presenter.CategoryPresenter.UpdateCategoryById)
 	category.DELETE("/:id", presenter.CategoryPresenter.DeleteCategoryById)
 
+	paymentMethod := e.Group("/payment-methods")
+	paymentMethod.POST("", presenter.PaymentMethodPresenter.Create)
+
 	return e
 }
