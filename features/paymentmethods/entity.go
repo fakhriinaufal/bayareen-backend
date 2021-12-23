@@ -13,10 +13,12 @@ type Business interface {
 	Create(data *Core) (*Core, error)
 	GetAll() []Core
 	GetById(id int) (*Core, error)
+	Update(data *Core) (*Core, error)
 }
 
 type Data interface {
 	Create(data *Core) (*Core, error)
 	GetAll() []Core
 	GetById(id int) (*Core, error)
+	Update(data *Core) (*Core, error)
 }

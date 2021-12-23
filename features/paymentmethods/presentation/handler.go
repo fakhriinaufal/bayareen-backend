@@ -66,3 +66,27 @@ func (pmh *PaymentMethodHandler) GetById(c echo.Context) error {
 		"data":    _payment_method_response.FromCore(resp),
 	})
 }
+
+func (pmh *PaymentMethodHandler) Update(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	pmRequest := _payment_method_request.PaymentMethod{}
+
+	if err := c.Bind(&pmRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	pmCore := pmRequest.ToCore()
+	pmCore.Id = id
+
+	_, err = pmh.PaymentMethodBusiness.Update(pmCore)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, []int{})
+}

@@ -31,6 +31,7 @@ func New() *echo.Echo {
 	paymentMethod.POST("", presenter.PaymentMethodPresenter.Create)
 	paymentMethod.GET("", presenter.PaymentMethodPresenter.GetAll)
 	paymentMethod.GET("/:id", presenter.PaymentMethodPresenter.GetById)
+	paymentMethod.PATCH("/:id", presenter.PaymentMethodPresenter.Update)
 
 	return e
 }
