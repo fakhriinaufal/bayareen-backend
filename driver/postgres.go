@@ -3,6 +3,7 @@ package driver
 import (
 	"bayareen-backend/config"
 	_providerRepo "bayareen-backend/features/providers/repository"
+	_categoryRepo "bayareen-backend/features/categories/repository"
 	_userRepo "bayareen-backend/features/user/repository"
 	"fmt"
 	"log"
@@ -16,17 +17,11 @@ var DB *gorm.DB
 func MigrateDB() {
 	DB.AutoMigrate(&_userRepo.User{})
 	DB.AutoMigrate(&_providerRepo.Provider{})
+	DB.AutoMigrate(&_categoryRepo.Category{})
 }
 
 func InitDB() {
 	config, _ := config.LoadConfig(".")
-
-	// dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
-	// 	config.DBUser,
-	// 	config.DBPass,
-	// 	config.DBHost,
-	// 	config.DBPort,
-	// 	config.DBName)
 
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
 		config.DBHost,

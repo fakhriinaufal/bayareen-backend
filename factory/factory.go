@@ -11,11 +11,17 @@ import (
 	_providerHandler "bayareen-backend/features/providers/presentation"
 	_providerData "bayareen-backend/features/providers/repository"
 	_providerUsecase "bayareen-backend/features/providers/service"
+
+  // category domain
+	_categoryHandler "bayareen-backend/features/categories/presentation"
+	_categoryData "bayareen-backend/features/categories/repository"
+	_categoryUsecase "bayareen-backend/features/categories/service"
 )
 
 type Presenter struct {
 	UserPresenter     *_userHandler.UserHandler
 	ProviderPresenter *_providerHandler.ProviderHandler
+	CategoryPresenter *_categoryHandler.CategoryHandler
 }
 
 func Init() Presenter {
@@ -28,8 +34,13 @@ func Init() Presenter {
 	providerUsecase := _providerUsecase.NewProviderUsecase(providerData)
 	providerHandler := _providerHandler.NewProviderHandler(providerUsecase)
 
+	categoryData := _categoryData.NewPostgreRepository(driver.DB)
+	categoryUsecase := _categoryUsecase.NewCategoryUsecase(categoryData)
+	categoryHandler := _categoryHandler.NewCategoryHandler(categoryUsecase)
+
 	return Presenter{
 		UserPresenter:     userHandler,
-		ProviderPresenter: providerHandler,
+		CategoryPresenter: categoryHandler,
+    ProviderPresenter: providerHandler,
 	}
 }
