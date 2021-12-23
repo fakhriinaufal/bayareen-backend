@@ -14,7 +14,10 @@ type PaymentMethod struct {
 
 func FromCore(core *paymentmethods.Core) *PaymentMethod {
 	return &PaymentMethod{
-		Name: core.Name,
+		Id:        core.Id,
+		Name:      core.Name,
+		CreatedAt: core.CreatedAt,
+		UpdatedAt: core.UpdatedAt,
 	}
 }
 
