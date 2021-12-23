@@ -51,3 +51,7 @@ func (repo *posgresPaymentMethodRepository) Update(data *paymentmethods.Core) (*
 
 	return record.ToCore(), nil
 }
+
+func (repo *posgresPaymentMethodRepository) Delete(id int) error {
+	return repo.Conn.Delete(&PaymentMethod{Id: id}).Error
+}

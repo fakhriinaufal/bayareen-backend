@@ -90,3 +90,17 @@ func (pmh *PaymentMethodHandler) Update(c echo.Context) error {
 
 	return c.JSON(http.StatusNoContent, []int{})
 }
+
+func (pmh *PaymentMethodHandler) Delete(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	if err := pmh.PaymentMethodBusiness.Delete(id); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, []int{})
+}

@@ -32,6 +32,7 @@ func New() *echo.Echo {
 	paymentMethod.GET("", presenter.PaymentMethodPresenter.GetAll)
 	paymentMethod.GET("/:id", presenter.PaymentMethodPresenter.GetById)
 	paymentMethod.PATCH("/:id", presenter.PaymentMethodPresenter.Update)
+	paymentMethod.DELETE("/:id", presenter.PaymentMethodPresenter.Delete)
 
 	return e
 }

@@ -64,3 +64,14 @@ func (pmu *paymentMethodUsecase) Update(data *paymentmethods.Core) (*paymentmeth
 
 	return resp, nil
 }
+
+func (pmu *paymentMethodUsecase) Delete(id int) error {
+	// check is payment method exist
+	_, err := pmu.PaymentMethodData.GetById(id)
+
+	if err != nil {
+		return err
+	}
+
+	return pmu.PaymentMethodData.Delete(id)
+}
