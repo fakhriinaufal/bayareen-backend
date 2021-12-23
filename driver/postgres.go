@@ -23,13 +23,6 @@ func MigrateDB() {
 func InitDB() {
 	config, _ := config.LoadConfig(".")
 
-	// dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
-	// 	config.DBUser,
-	// 	config.DBPass,
-	// 	config.DBHost,
-	// 	config.DBPort,
-	// 	config.DBName)
-
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable TimeZone=Asia/Jakarta",
 		config.DBHost,
 		config.DBUser,

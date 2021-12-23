@@ -32,3 +32,7 @@ func (pmu *paymentMethodUsecase) Create(data *paymentmethods.Core) (*paymentmeth
 
 	return resp, nil
 }
+
+func (pmu *paymentMethodUsecase) GetAll() []paymentmethods.Core {
+	return pmu.PaymentMethodData.GetAll()
+}

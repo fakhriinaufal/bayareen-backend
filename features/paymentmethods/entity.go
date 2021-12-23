@@ -11,8 +11,10 @@ type Core struct {
 
 type Business interface {
 	Create(data *Core) (*Core, error)
+	GetAll() []Core
 }
 
 type Data interface {
 	Create(data *Core) (*Core, error)
+	GetAll() []Core
 }

@@ -38,3 +38,12 @@ func (pmh *PaymentMethodHandler) Create(c echo.Context) error {
 	})
 
 }
+
+func (pmh *PaymentMethodHandler) GetAll(c echo.Context) error {
+	resp := pmh.PaymentMethodBusiness.GetAll()
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    _payment_method_response.FromCoreSlice(resp),
+	})
+}

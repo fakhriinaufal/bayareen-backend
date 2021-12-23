@@ -24,3 +24,10 @@ func (repo *posgresPaymentMethodRepository) Create(data *paymentmethods.Core) (*
 
 	return record.ToCore(), nil
 }
+
+func (repo *posgresPaymentMethodRepository) GetAll() []paymentmethods.Core {
+	records := []PaymentMethod{}
+	repo.Conn.Find(&records)
+
+	return ToCoreSlice(records)
+}
