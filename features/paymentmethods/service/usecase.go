@@ -36,3 +36,13 @@ func (pmu *paymentMethodUsecase) Create(data *paymentmethods.Core) (*paymentmeth
 func (pmu *paymentMethodUsecase) GetAll() []paymentmethods.Core {
 	return pmu.PaymentMethodData.GetAll()
 }
+
+func (pmu *paymentMethodUsecase) GetById(id int) (*paymentmethods.Core, error) {
+	resp, err := pmu.PaymentMethodData.GetById(id)
+
+	if err != nil {
+		return &paymentmethods.Core{}, err
+	}
+
+	return resp, nil
+}

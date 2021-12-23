@@ -30,6 +30,7 @@ func New() *echo.Echo {
 	paymentMethod := e.Group("/payment-methods")
 	paymentMethod.POST("", presenter.PaymentMethodPresenter.Create)
 	paymentMethod.GET("", presenter.PaymentMethodPresenter.GetAll)
+	paymentMethod.GET("/:id", presenter.PaymentMethodPresenter.GetById)
 
 	return e
 }

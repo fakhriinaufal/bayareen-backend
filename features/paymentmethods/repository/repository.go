@@ -31,3 +31,14 @@ func (repo *posgresPaymentMethodRepository) GetAll() []paymentmethods.Core {
 
 	return ToCoreSlice(records)
 }
+
+func (repo *posgresPaymentMethodRepository) GetById(id int) (*paymentmethods.Core, error) {
+	record := PaymentMethod{
+		Id: id,
+	}
+	if err := repo.Conn.First(&record).Error; err != nil {
+		return &paymentmethods.Core{}, err
+	}
+
+	return record.ToCore(), nil
+}

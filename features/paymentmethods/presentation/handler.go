@@ -5,6 +5,7 @@ import (
 	_payment_method_request "bayareen-backend/features/paymentmethods/presentation/request"
 	_payment_method_response "bayareen-backend/features/paymentmethods/presentation/response"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -45,5 +46,23 @@ func (pmh *PaymentMethodHandler) GetAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success",
 		"data":    _payment_method_response.FromCoreSlice(resp),
+	})
+}
+
+func (pmh *PaymentMethodHandler) GetById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	resp, err := pmh.PaymentMethodBusiness.GetById(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    _payment_method_response.FromCore(resp),
 	})
 }
