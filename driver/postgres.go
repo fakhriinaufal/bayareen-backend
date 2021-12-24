@@ -2,6 +2,7 @@ package driver
 
 import (
 	"bayareen-backend/config"
+	_providerRepo "bayareen-backend/features/providers/repository"
 	_categoryRepo "bayareen-backend/features/categories/repository"
 	_paymentMethodRepo "bayareen-backend/features/paymentmethods/repository"
 	_userRepo "bayareen-backend/features/user/repository"
@@ -16,6 +17,7 @@ var DB *gorm.DB
 
 func MigrateDB() {
 	DB.AutoMigrate(&_userRepo.User{})
+	DB.AutoMigrate(&_providerRepo.Provider{})
 	DB.AutoMigrate(&_categoryRepo.Category{})
 	DB.AutoMigrate(&_paymentMethodRepo.PaymentMethod{})
 }
