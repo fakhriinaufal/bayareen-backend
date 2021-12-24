@@ -16,12 +16,17 @@ import (
 	_categoryHandler "bayareen-backend/features/categories/presentation"
 	_categoryData "bayareen-backend/features/categories/repository"
 	_categoryUsecase "bayareen-backend/features/categories/service"
+
+	_paymentMethodHandler "bayareen-backend/features/paymentmethods/presentation"
+	_paymentMethodData "bayareen-backend/features/paymentmethods/repository"
+	_paymentMethodUsecase "bayareen-backend/features/paymentmethods/service"
 )
 
 type Presenter struct {
-	UserPresenter     *_userHandler.UserHandler
+	UserPresenter          *_userHandler.UserHandler
+	CategoryPresenter      *_categoryHandler.CategoryHandler
+	PaymentMethodPresenter *_paymentMethodHandler.PaymentMethodHandler
 	ProviderPresenter *_providerHandler.ProviderHandler
-	CategoryPresenter *_categoryHandler.CategoryHandler
 }
 
 func Init() Presenter {
@@ -38,9 +43,15 @@ func Init() Presenter {
 	categoryUsecase := _categoryUsecase.NewCategoryUsecase(categoryData)
 	categoryHandler := _categoryHandler.NewCategoryHandler(categoryUsecase)
 
+	// payment method domain
+	paymentMethodData := _paymentMethodData.NewPostgresPaymentMethodRepository(driver.DB)
+	paymentMethodUsecase := _paymentMethodUsecase.NewPaymentMethodUsecase(paymentMethodData)
+	paymentMethodHandler := _paymentMethodHandler.NewPaymentMethodHandler(paymentMethodUsecase)
+
 	return Presenter{
-		UserPresenter:     userHandler,
-		CategoryPresenter: categoryHandler,
+		UserPresenter:          userHandler,
+		CategoryPresenter:      categoryHandler,
+		PaymentMethodPresenter: paymentMethodHandler,
     ProviderPresenter: providerHandler,
 	}
 }
