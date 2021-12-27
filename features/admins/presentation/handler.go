@@ -5,6 +5,7 @@ import (
 	_admin_request "bayareen-backend/features/admins/presentation/request"
 	_admin_response "bayareen-backend/features/admins/presentation/response"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -42,5 +43,22 @@ func (ah *AdminHandler) GetAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success",
 		"data":    _admin_response.FromCoreSlice(resp),
+	})
+}
+
+func (ah *AdminHandler) GetById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	resp, err := ah.adminBusiness.GetById(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    _admin_response.FromCore(resp),
 	})
 }

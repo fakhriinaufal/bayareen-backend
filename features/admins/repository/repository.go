@@ -29,3 +29,13 @@ func (repo *postgresUserRepository) GetAll() []admins.Core {
 	repo.Conn.Find(&records)
 	return ToCoreSlice(records)
 }
+
+func (repo *postgresUserRepository) GetById(id int) (*admins.Core, error) {
+	record := Admin{
+		Id: id,
+	}
+	if err := repo.Conn.First(&record).Error; err != nil {
+		return &admins.Core{}, err
+	}
+	return record.ToCore(), nil
+}

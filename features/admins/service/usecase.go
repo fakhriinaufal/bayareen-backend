@@ -33,3 +33,7 @@ func (au *adminUsecase) Create(data *admins.Core) (*admins.Core, error) {
 func (au *adminUsecase) GetAll() []admins.Core {
 	return au.AdminData.GetAll()
 }
+
+func (au *adminUsecase) GetById(id int) (*admins.Core, error) {
+	return au.AdminData.GetById(id)
+}
