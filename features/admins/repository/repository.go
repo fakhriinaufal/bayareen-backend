@@ -39,3 +39,11 @@ func (repo *postgresUserRepository) GetById(id int) (*admins.Core, error) {
 	}
 	return record.ToCore(), nil
 }
+
+func (repo *postgresUserRepository) Update(data *admins.Core) (*admins.Core, error) {
+	record := FromCore(data)
+	if err := repo.Conn.Save(&record).Error; err != nil {
+		return &admins.Core{}, err
+	}
+	return record.ToCore(), nil
+}

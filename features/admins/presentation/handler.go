@@ -62,3 +62,26 @@ func (ah *AdminHandler) GetById(c echo.Context) error {
 		"data":    _admin_response.FromCore(resp),
 	})
 }
+
+func (ah *AdminHandler) Update(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	adminRequest := _admin_request.Admin{}
+
+	if err := c.Bind(&adminRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	adminCore := adminRequest.ToCore()
+	adminCore.Id = id
+
+	_, err = ah.adminBusiness.Update(adminCore)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, []int{})
+}

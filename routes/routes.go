@@ -45,6 +45,7 @@ func New() *echo.Echo {
 	admin.POST("", presenter.AdminPresenter.Create)
 	admin.GET("", presenter.AdminPresenter.GetAll)
 	admin.GET("/:id", presenter.AdminPresenter.GetById)
+	admin.PATCH("/:id", presenter.AdminPresenter.Update)
 
 	return e
 }
