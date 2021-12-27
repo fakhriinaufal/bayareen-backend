@@ -2,9 +2,10 @@ package driver
 
 import (
 	"bayareen-backend/config"
-	_providerRepo "bayareen-backend/features/providers/repository"
 	_categoryRepo "bayareen-backend/features/categories/repository"
 	_paymentMethodRepo "bayareen-backend/features/paymentmethods/repository"
+	_productRepo "bayareen-backend/features/products/repository"
+	_providerRepo "bayareen-backend/features/providers/repository"
 	_userRepo "bayareen-backend/features/user/repository"
 	"fmt"
 	"log"
@@ -20,6 +21,7 @@ func MigrateDB() {
 	DB.AutoMigrate(&_providerRepo.Provider{})
 	DB.AutoMigrate(&_categoryRepo.Category{})
 	DB.AutoMigrate(&_paymentMethodRepo.PaymentMethod{})
+	DB.AutoMigrate(&_productRepo.Product{})
 }
 
 func InitDB() {
