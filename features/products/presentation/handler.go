@@ -35,3 +35,11 @@ func (ph *ProductHandler) Create(c echo.Context) error {
 		"data":    _product_response.FromCore(resp),
 	})
 }
+
+func (ph *ProductHandler) GetAll(c echo.Context) error {
+	resp := ph.ProductBusiness.GetAll()
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    _product_response.FromCoreSlice(resp),
+	})
+}

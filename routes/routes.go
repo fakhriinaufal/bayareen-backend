@@ -43,6 +43,7 @@ func New() *echo.Echo {
 
 	product := e.Group("/products")
 	product.POST("", presenter.ProductPresenter.Create)
+	product.GET("", presenter.ProductPresenter.GetAll)
 
 	return e
 }

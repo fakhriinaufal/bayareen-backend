@@ -52,3 +52,7 @@ func (pu *productUsecase) Create(data *products.Core) (*products.Core, error) {
 
 	return resp, nil
 }
+
+func (pu *productUsecase) GetAll() []products.Core {
+	return pu.productData.GetAll()
+}

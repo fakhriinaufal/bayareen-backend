@@ -23,3 +23,9 @@ func (repo *postgresProductRepository) Create(data *products.Core) (*products.Co
 	}
 	return record.ToCore(), nil
 }
+
+func (repo *postgresProductRepository) GetAll() []products.Core {
+	records := []Product{}
+	repo.Conn.Find(&records)
+	return ToCoreSlice(records)
+}
