@@ -15,7 +15,7 @@ type Provider struct {
 
 func FromCore(core *providers.Core) *Provider {
 	return &Provider{
-		Id:        core.CatId,
+		Id:        core.Id,
 		CatId:     core.CatId,
 		Name:      core.Name,
 		CreatedAt: core.CreatedAt,
