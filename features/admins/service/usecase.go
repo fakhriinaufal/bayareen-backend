@@ -29,3 +29,7 @@ func (au *adminUsecase) Create(data *admins.Core) (*admins.Core, error) {
 	}
 	return resp, nil
 }
+
+func (au *adminUsecase) GetAll() []admins.Core {
+	return au.AdminData.GetAll()
+}

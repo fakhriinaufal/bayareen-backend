@@ -43,6 +43,7 @@ func New() *echo.Echo {
 
 	admin := e.Group("/admins")
 	admin.POST("", presenter.AdminPresenter.Create)
+	admin.GET("", presenter.AdminPresenter.GetAll)
 
 	return e
 }

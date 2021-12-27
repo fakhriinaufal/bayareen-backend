@@ -36,3 +36,11 @@ func (ah *AdminHandler) Create(c echo.Context) error {
 		"data":    _admin_response.FromCore(resp),
 	})
 }
+
+func (ah *AdminHandler) GetAll(c echo.Context) error {
+	resp := ah.adminBusiness.GetAll()
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    _admin_response.FromCoreSlice(resp),
+	})
+}

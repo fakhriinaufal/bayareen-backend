@@ -23,3 +23,9 @@ func (repo *postgresUserRepository) Create(data *admins.Core) (*admins.Core, err
 	}
 	return record.ToCore(), nil
 }
+
+func (repo *postgresUserRepository) GetAll() []admins.Core {
+	records := []Admin{}
+	repo.Conn.Find(&records)
+	return ToCoreSlice(records)
+}
