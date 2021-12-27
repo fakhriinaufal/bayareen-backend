@@ -56,3 +56,13 @@ func (au *adminUsecase) Update(data *admins.Core) (*admins.Core, error) {
 	}
 	return resp, nil
 }
+
+func (au *adminUsecase) Delete(id int) error {
+	// check is admin exist
+	_, err := au.AdminData.GetById(id)
+	if err != nil {
+		return err
+	}
+
+	return au.AdminData.Delete(id)
+}

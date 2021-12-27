@@ -46,6 +46,7 @@ func New() *echo.Echo {
 	admin.GET("", presenter.AdminPresenter.GetAll)
 	admin.GET("/:id", presenter.AdminPresenter.GetById)
 	admin.PATCH("/:id", presenter.AdminPresenter.Update)
+	admin.DELETE("/:id", presenter.AdminPresenter.Delete)
 
 	return e
 }

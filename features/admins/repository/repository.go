@@ -47,3 +47,7 @@ func (repo *postgresUserRepository) Update(data *admins.Core) (*admins.Core, err
 	}
 	return record.ToCore(), nil
 }
+
+func (repo *postgresUserRepository) Delete(id int) error {
+	return repo.Conn.Delete(&Admin{Id: id}).Error
+}

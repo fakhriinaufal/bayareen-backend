@@ -85,3 +85,17 @@ func (ah *AdminHandler) Update(c echo.Context) error {
 
 	return c.JSON(http.StatusNoContent, []int{})
 }
+
+func (ah *AdminHandler) Delete(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	err = ah.adminBusiness.Delete(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, []int{})
+}
