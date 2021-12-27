@@ -41,5 +41,8 @@ func New() *echo.Echo {
 	paymentMethod.PATCH("/:id", presenter.PaymentMethodPresenter.Update)
 	paymentMethod.DELETE("/:id", presenter.PaymentMethodPresenter.Delete)
 
+	admin := e.Group("/admins")
+	admin.POST("", presenter.AdminPresenter.Create)
+
 	return e
 }
