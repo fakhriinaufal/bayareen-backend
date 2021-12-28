@@ -29,3 +29,11 @@ func (repo *postgresProductRepository) GetAll() []products.Core {
 	repo.Conn.Find(&records)
 	return ToCoreSlice(records)
 }
+
+func (repo *postgresProductRepository) GetById(id int) (*products.Core, error) {
+	record := Product{Id: id}
+	if err := repo.Conn.First(&record).Error; err != nil {
+		return &products.Core{}, err
+	}
+	return record.ToCore(), nil
+}

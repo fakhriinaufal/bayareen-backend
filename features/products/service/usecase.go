@@ -56,3 +56,7 @@ func (pu *productUsecase) Create(data *products.Core) (*products.Core, error) {
 func (pu *productUsecase) GetAll() []products.Core {
 	return pu.productData.GetAll()
 }
+
+func (pu *productUsecase) GetById(id int) (*products.Core, error) {
+	return pu.productData.GetById(id)
+}

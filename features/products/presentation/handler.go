@@ -5,6 +5,7 @@ import (
 	_product_request "bayareen-backend/features/products/presentation/request"
 	_product_response "bayareen-backend/features/products/presentation/response"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -41,5 +42,21 @@ func (ph *ProductHandler) GetAll(c echo.Context) error {
 	return c.JSON(http.StatusOK, map[string]interface{}{
 		"message": "success",
 		"data":    _product_response.FromCoreSlice(resp),
+	})
+}
+
+func (ph *ProductHandler) GetById(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	resp, err := ph.ProductBusiness.GetById(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "success",
+		"data":    _product_response.FromCore(resp),
 	})
 }
