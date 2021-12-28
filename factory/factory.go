@@ -22,10 +22,16 @@ import (
 	_paymentMethodData "bayareen-backend/features/paymentmethods/repository"
 	_paymentMethodUsecase "bayareen-backend/features/paymentmethods/service"
 
+	// product domain
+	_productHandler "bayareen-backend/features/products/presentation"
+	_productData "bayareen-backend/features/products/repository"
+	_productUsecase "bayareen-backend/features/products/service"
+
 	// admin domain
 	_adminHandler "bayareen-backend/features/admins/presentation"
 	_adminData "bayareen-backend/features/admins/repository"
 	_adminUsecase "bayareen-backend/features/admins/service"
+
 )
 
 type Presenter struct {
@@ -33,6 +39,7 @@ type Presenter struct {
 	CategoryPresenter      *_categoryHandler.CategoryHandler
 	PaymentMethodPresenter *_paymentMethodHandler.PaymentMethodHandler
 	ProviderPresenter      *_providerHandler.ProviderHandler
+	ProductPresenter       *_productHandler.ProductHandler
 	AdminPresenter         *_adminHandler.AdminHandler
 }
 
@@ -54,6 +61,10 @@ func Init() Presenter {
 	paymentMethodUsecase := _paymentMethodUsecase.NewPaymentMethodUsecase(paymentMethodData)
 	paymentMethodHandler := _paymentMethodHandler.NewPaymentMethodHandler(paymentMethodUsecase)
 
+	productData := _productData.NewPostgresProductRepository(driver.DB)
+	productUsecase := _productUsecase.NewProductUsecase(productData, categoryData, providerData)
+	productHandler := _productHandler.NewProductHandler(productUsecase)
+
 	adminData := _adminData.NewPostgresUserRepository(driver.DB)
 	adminUsecase := _adminUsecase.NewAdminUsecase(adminData)
 	adminHandler := _adminHandler.NewAdminHandler(adminUsecase)
@@ -63,6 +74,7 @@ func Init() Presenter {
 		CategoryPresenter:      categoryHandler,
 		PaymentMethodPresenter: paymentMethodHandler,
 		ProviderPresenter:      providerHandler,
+		ProductPresenter:       productHandler,
 		AdminPresenter:         adminHandler,
 	}
 }
