@@ -17,6 +17,7 @@ import (
 	_categoryData "bayareen-backend/features/categories/repository"
 	_categoryUsecase "bayareen-backend/features/categories/service"
 
+	// payment method domain
 	_paymentMethodHandler "bayareen-backend/features/paymentmethods/presentation"
 	_paymentMethodData "bayareen-backend/features/paymentmethods/repository"
 	_paymentMethodUsecase "bayareen-backend/features/paymentmethods/service"
@@ -25,6 +26,12 @@ import (
 	_productHandler "bayareen-backend/features/products/presentation"
 	_productData "bayareen-backend/features/products/repository"
 	_productUsecase "bayareen-backend/features/products/service"
+
+	// admin domain
+	_adminHandler "bayareen-backend/features/admins/presentation"
+	_adminData "bayareen-backend/features/admins/repository"
+	_adminUsecase "bayareen-backend/features/admins/service"
+
 )
 
 type Presenter struct {
@@ -33,6 +40,7 @@ type Presenter struct {
 	PaymentMethodPresenter *_paymentMethodHandler.PaymentMethodHandler
 	ProviderPresenter      *_providerHandler.ProviderHandler
 	ProductPresenter       *_productHandler.ProductHandler
+	AdminPresenter         *_adminHandler.AdminHandler
 }
 
 func Init() Presenter {
@@ -49,7 +57,6 @@ func Init() Presenter {
 	categoryUsecase := _categoryUsecase.NewCategoryUsecase(categoryData)
 	categoryHandler := _categoryHandler.NewCategoryHandler(categoryUsecase)
 
-	// payment method domain
 	paymentMethodData := _paymentMethodData.NewPostgresPaymentMethodRepository(driver.DB)
 	paymentMethodUsecase := _paymentMethodUsecase.NewPaymentMethodUsecase(paymentMethodData)
 	paymentMethodHandler := _paymentMethodHandler.NewPaymentMethodHandler(paymentMethodUsecase)
@@ -58,11 +65,16 @@ func Init() Presenter {
 	productUsecase := _productUsecase.NewProductUsecase(productData, categoryData, providerData)
 	productHandler := _productHandler.NewProductHandler(productUsecase)
 
+	adminData := _adminData.NewPostgresUserRepository(driver.DB)
+	adminUsecase := _adminUsecase.NewAdminUsecase(adminData)
+	adminHandler := _adminHandler.NewAdminHandler(adminUsecase)
+
 	return Presenter{
 		UserPresenter:          userHandler,
 		CategoryPresenter:      categoryHandler,
 		PaymentMethodPresenter: paymentMethodHandler,
 		ProviderPresenter:      providerHandler,
 		ProductPresenter:       productHandler,
+		AdminPresenter:         adminHandler,
 	}
 }

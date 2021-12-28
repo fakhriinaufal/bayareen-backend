@@ -48,5 +48,12 @@ func New() *echo.Echo {
 	product.PATCH("/:id", presenter.ProductPresenter.Update)
 	product.DELETE("/:id", presenter.ProductPresenter.Delete)
 
+	admin := e.Group("/admins")
+	admin.POST("", presenter.AdminPresenter.Create)
+	admin.GET("", presenter.AdminPresenter.GetAll)
+	admin.GET("/:id", presenter.AdminPresenter.GetById)
+	admin.PATCH("/:id", presenter.AdminPresenter.Update)
+	admin.DELETE("/:id", presenter.AdminPresenter.Delete)
+
 	return e
 }
