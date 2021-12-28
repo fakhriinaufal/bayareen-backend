@@ -82,3 +82,16 @@ func (ph *ProductHandler) Update(c echo.Context) error {
 
 	return c.JSON(http.StatusNoContent, []int{})
 }
+
+func (ph *ProductHandler) Delete(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	err = ph.ProductBusiness.Delete(id)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusNoContent, []int{})
+}

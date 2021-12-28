@@ -96,3 +96,12 @@ func (pu *productUsecase) Update(data *products.Core) (*products.Core, error) {
 
 	return resp, nil
 }
+
+func (pu *productUsecase) Delete(id int) error {
+	// check is product exist
+	_, err := pu.productData.GetById(id)
+	if err != nil {
+		return err
+	}
+	return pu.providerData.Delete(id)
+}
