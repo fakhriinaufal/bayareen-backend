@@ -45,6 +45,7 @@ func New() *echo.Echo {
 	product.POST("", presenter.ProductPresenter.Create)
 	product.GET("", presenter.ProductPresenter.GetAll)
 	product.GET("/:id", presenter.ProductPresenter.GetById)
+	product.PATCH("/:id", presenter.ProductPresenter.Update)
 
 	return e
 }

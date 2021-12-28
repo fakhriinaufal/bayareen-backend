@@ -37,3 +37,11 @@ func (repo *postgresProductRepository) GetById(id int) (*products.Core, error) {
 	}
 	return record.ToCore(), nil
 }
+
+func (repo *postgresProductRepository) Update(data *products.Core) (*products.Core, error) {
+	record := FromCore(data)
+	if err := repo.Conn.Save(record).Error; err != nil {
+		return &products.Core{}, err
+	}
+	return record.ToCore(), nil
+}

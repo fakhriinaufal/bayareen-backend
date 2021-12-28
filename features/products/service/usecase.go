@@ -60,3 +60,39 @@ func (pu *productUsecase) GetAll() []products.Core {
 func (pu *productUsecase) GetById(id int) (*products.Core, error) {
 	return pu.productData.GetById(id)
 }
+
+func (pu *productUsecase) Update(data *products.Core) (*products.Core, error) {
+	if err := pu.validator.Struct(data); err != nil {
+		return &products.Core{}, err
+	}
+
+	if data.CatId != 0 {
+		// check is category exist
+		_, err := pu.categoryData.GetById(data.CatId)
+		if err != nil {
+			return &products.Core{}, err
+		}
+	}
+
+	if data.ProviderId != 0 {
+		// check is provider exist
+		_, err := pu.providerData.GetById(data.ProviderId)
+		if err != nil {
+			return &products.Core{}, err
+		}
+	}
+
+	existedProduct, err := pu.productData.GetById(data.Id)
+	if err != nil {
+		return &products.Core{}, err
+	}
+
+	data.CreatedAt = existedProduct.CreatedAt
+
+	resp, err := pu.productData.Update(data)
+	if err != nil {
+		return &products.Core{}, err
+	}
+
+	return resp, nil
+}

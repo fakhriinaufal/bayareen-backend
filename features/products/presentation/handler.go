@@ -60,3 +60,25 @@ func (ph *ProductHandler) GetById(c echo.Context) error {
 		"data":    _product_response.FromCore(resp),
 	})
 }
+
+func (ph *ProductHandler) Update(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	productRequest := _product_request.Product{}
+	if err := c.Bind(&productRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, err.Error())
+	}
+
+	productCore := productRequest.ToCore()
+	productCore.Id = id
+
+	_, err = ph.ProductBusiness.Update(productCore)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, err.Error())
+	}
+
+	return c.JSON(http.StatusNoContent, []int{})
+}
