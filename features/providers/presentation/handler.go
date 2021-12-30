@@ -25,18 +25,16 @@ func (ph *ProviderHandler) Create(c echo.Context) error {
 	providerRequest := provider_request.Provider{}
 
 	if err := c.Bind(&providerRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
 	resp, err := ph.ProviderBusiness.Create(providerRequest.ToCore())
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
@@ -58,17 +56,15 @@ func (ph *ProviderHandler) GetAll(c echo.Context) error {
 func (ph *ProviderHandler) GetById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
 	resp, err := ph.ProviderBusiness.GetById(id)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
@@ -81,18 +77,16 @@ func (ph *ProviderHandler) GetById(c echo.Context) error {
 func (ph *ProviderHandler) Update(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
 	providerRequest := provider_request.Provider{}
 
 	if err := c.Bind(&providerRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
@@ -101,9 +95,8 @@ func (ph *ProviderHandler) Update(c echo.Context) error {
 
 	_, err = ph.ProviderBusiness.Update(core)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
@@ -113,16 +106,14 @@ func (ph *ProviderHandler) Update(c echo.Context) error {
 func (ph *ProviderHandler) Delete(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
 	if err = ph.ProviderBusiness.Delete(id); err != nil {
 		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+			Message: err.Error(),
 		})
 	}
 
