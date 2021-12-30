@@ -25,17 +25,15 @@ func (ah *AdminHandler) Create(c echo.Context) error {
 	adminRequest := _admin_request.Admin{}
 
 	if err := c.Bind(&adminRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data: err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
 	resp, err := ah.adminBusiness.Create(adminRequest.ToCore())
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
-			Message: "failed",
-			Data: err.Error(),
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
@@ -56,17 +54,15 @@ func (ah *AdminHandler) GetAll(c echo.Context) error {
 func (ah *AdminHandler) GetById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data: err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
 	resp, err := ah.adminBusiness.GetById(id)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
-			Message: "failed",
-			Data: err.Error(),
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
@@ -79,18 +75,16 @@ func (ah *AdminHandler) GetById(c echo.Context) error {
 func (ah *AdminHandler) Update(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data: err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
 	adminRequest := _admin_request.Admin{}
 
 	if err := c.Bind(&adminRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data: err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
@@ -99,9 +93,8 @@ func (ah *AdminHandler) Update(c echo.Context) error {
 
 	_, err = ah.adminBusiness.Update(adminCore)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
-			Message: "failed",
-			Data: err.Error(),
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
@@ -111,17 +104,15 @@ func (ah *AdminHandler) Update(c echo.Context) error {
 func (ah *AdminHandler) Delete(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{
-			Message: "failed",
-			Data: err.Error(),
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
 	err = ah.adminBusiness.Delete(id)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
-			Message: "failed",
-			Data:    err.Error(),
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
 		})
 	}
 
