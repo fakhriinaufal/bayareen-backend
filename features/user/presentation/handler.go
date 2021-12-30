@@ -4,7 +4,7 @@ import (
 	"bayareen-backend/features/user"
 	presentation_request "bayareen-backend/features/user/presentation/request"
 	presentation_response "bayareen-backend/features/user/presentation/response"
-	"fmt"
+	"bayareen-backend/helper/response"
 	"net/http"
 	"strconv"
 
@@ -28,21 +28,21 @@ func (uh *UserHandler) CreateUser(c echo.Context) error {
 	resp, err := uh.userBussiness.Create(userRequest.ToCore())
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"message": "success",
-		"data":    presentation_response.FromCore(&resp),
+	return c.JSON(http.StatusCreated, response.BasicResponse{
+		Message: "success",
+		Data:    presentation_response.FromCore(&resp),
 	})
 }
 
 func (uh *UserHandler) GetAllUser(c echo.Context) error {
 	resp := uh.userBussiness.GetAll()
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success",
-		"data":    presentation_response.FromCoreSlice(resp),
+	return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "success",
+		Data:    presentation_response.FromCoreSlice(resp),
 	})
 }
 
@@ -51,12 +51,12 @@ func (uh *UserHandler) GetUserById(c echo.Context) error {
 
 	resp, err := uh.userBussiness.GetById(id)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success",
-		"data":    presentation_response.FromCore(&resp),
+	return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "success",
+		Data:    presentation_response.FromCore(&resp),
 	})
 }
 
@@ -64,32 +64,30 @@ func (uh *UserHandler) Update(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	userRequest := presentation_request.User{}
 
-	c.Bind(&userRequest)
+	err := c.Bind(&userRequest)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{Message: err.Error()})
+	}
 
 	userCore := userRequest.ToCore()
 	userCore.Id = id
 
-	resp, err := uh.userBussiness.Update(userCore)
+	_, err = uh.userBussiness.Update(userCore)
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success",
-		"data":    presentation_response.FromCore(&resp),
-	})
+	return c.JSON(http.StatusNoContent, []int{})
 }
 
 func (uh *UserHandler) Delete(c echo.Context) error {
-	id, _ := strconv.Atoi(c.Param("id"))
-	fmt.Print("id", id)
-
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{Message: err.Error()})
+	}
 	if err := uh.userBussiness.Delete(id); err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{Message: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success",
-		"data":    []int{},
-	})
+	return c.JSON(http.StatusNoContent, []int{})
 }
