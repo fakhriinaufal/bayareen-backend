@@ -4,6 +4,7 @@ import (
 	"bayareen-backend/features/categories"
 	category_request "bayareen-backend/features/categories/presentation/request"
 	category_response "bayareen-backend/features/categories/presentation/response"
+	"bayareen-backend/helper/response"
 	"net/http"
 	"strconv"
 
@@ -26,59 +27,58 @@ func (ch *CategoryHandler) CreateCategory(c echo.Context) error {
 	err := c.Bind(&categoryRequest)
 
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
 	}
 
 	resp, err := ch.categoryBusiness.Create(categoryRequest.ToCore())
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, response.BasicResponse{Message: "failed", Data: err.Error()})
 	}
 
-	return c.JSON(http.StatusCreated, map[string]interface{}{
-		"message": "success",
-		"data":    category_response.FromCore(&resp),
+	return c.JSON(http.StatusCreated, response.BasicResponse{
+		Message: "success",
+		Data:    category_response.FromCore(&resp),
 	})
 }
 
 func (ch *CategoryHandler) GetAllCategory(c echo.Context) error {
 	resp := ch.categoryBusiness.GetAll()
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success",
-		"data":    category_response.FromCoreSlice(resp),
+	return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "success",
+		Data:    category_response.FromCoreSlice(resp),
 	})
 }
 
 func (ch *CategoryHandler) GetCategoryById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
 	}
 
 	resp, err := ch.categoryBusiness.GetById(id)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, response.BasicResponse{Message: "failed", Data: err.Error()})
 	}
 
-	return c.JSON(http.StatusOK, map[string]interface{}{
-		"message": "success",
-		"data":    category_response.FromCore(&resp),
+	return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "success",
+		Data:    category_response.FromCore(&resp),
 	})
-
 }
 
 func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
 	}
 
 	categoryRequest := category_request.Category{}
 
 	if err := c.Bind(&categoryRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
 	}
 
 	categoryCore := categoryRequest.ToCore()
@@ -87,7 +87,7 @@ func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 	_, err = ch.categoryBusiness.Update(categoryCore)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, response.BasicResponse{Message: "failed", Data: err.Error()})
 	}
 
 	return c.JSON(http.StatusNoContent, []int{})
@@ -96,11 +96,11 @@ func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 func (ch *CategoryHandler) DeleteCategoryById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, err.Error())
+		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
 	}
 
 	if err = ch.categoryBusiness.Delete(id); err != nil {
-		return c.JSON(http.StatusInternalServerError, err.Error())
+		return c.JSON(http.StatusInternalServerError, response.BasicResponse{Message: "failed", Data: err.Error()})
 	}
 
 	return c.JSON(http.StatusNoContent, []int{})
