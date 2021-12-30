@@ -27,13 +27,17 @@ func (ch *CategoryHandler) CreateCategory(c echo.Context) error {
 	err := c.Bind(&categoryRequest)
 
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
 	}
 
 	resp, err := ch.categoryBusiness.Create(categoryRequest.ToCore())
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{Message: "failed", Data: err.Error()})
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
+		})
 	}
 
 	return c.JSON(http.StatusCreated, response.BasicResponse{
@@ -54,13 +58,17 @@ func (ch *CategoryHandler) GetAllCategory(c echo.Context) error {
 func (ch *CategoryHandler) GetCategoryById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
 	}
 
 	resp, err := ch.categoryBusiness.GetById(id)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{Message: "failed", Data: err.Error()})
+		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
+			Message: err.Error(),
+		})
 	}
 
 	return c.JSON(http.StatusOK, response.BasicResponse{
@@ -72,13 +80,17 @@ func (ch *CategoryHandler) GetCategoryById(c echo.Context) error {
 func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
 	}
 
 	categoryRequest := category_request.Category{}
 
 	if err := c.Bind(&categoryRequest); err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
 	}
 
 	categoryCore := categoryRequest.ToCore()
@@ -87,7 +99,9 @@ func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 	_, err = ch.categoryBusiness.Update(categoryCore)
 
 	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{Message: "failed", Data: err.Error()})
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
+		})
 	}
 
 	return c.JSON(http.StatusNoContent, []int{})
@@ -96,11 +110,15 @@ func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 func (ch *CategoryHandler) DeleteCategoryById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.BasicResponse{Message: "failed", Data: err.Error()})
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
 	}
 
 	if err = ch.categoryBusiness.Delete(id); err != nil {
-		return c.JSON(http.StatusInternalServerError, response.BasicResponse{Message: "failed", Data: err.Error()})
+		return c.JSON(http.StatusInternalServerError, response.BasicResponse{
+			Message: err.Error(),
+		})
 	}
 
 	return c.JSON(http.StatusNoContent, []int{})
