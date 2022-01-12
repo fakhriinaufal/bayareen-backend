@@ -19,7 +19,7 @@ func FromCore(core *user.UserCore) User {
 }
 
 func FromCoreSlice(core []user.UserCore) []User {
-	var userSlice []User
+	userSlice := []User{}
 	for _, val := range core {
 		userSlice = append(userSlice, FromCore(&val))
 	}
