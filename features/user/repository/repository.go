@@ -56,7 +56,7 @@ func (repo *mySqlRepository) Update(data user.UserCore) (user.UserCore, error) {
 
 func (repo *mySqlRepository) Delete(id int) error {
 	record := User{
-		ID: id,
+		Id: id,
 	}
 	return repo.Conn.Delete(&record).Error
 }

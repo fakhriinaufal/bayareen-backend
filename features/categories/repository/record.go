@@ -10,7 +10,6 @@ import (
 type Category struct {
 	Id        int
 	Name      string
-	ImgUrl    string
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt gorm.DeletedAt `gorm:"index"`
@@ -20,7 +19,6 @@ func (c *Category) ToCore() categories.Core {
 	return categories.Core{
 		Id:        c.Id,
 		Name:      c.Name,
-		ImgUrl:    c.ImgUrl,
 		CreatedAt: c.CreatedAt,
 		UpdatedAt: c.UpdatedAt,
 	}
@@ -38,7 +36,6 @@ func FromCore(core categories.Core) Category {
 	return Category{
 		Id:        core.Id,
 		Name:      core.Name,
-		ImgUrl:    core.ImgUrl,
 		CreatedAt: core.CreatedAt,
 		UpdatedAt: core.UpdatedAt,
 	}

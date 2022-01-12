@@ -12,7 +12,10 @@ func New() *echo.Echo {
 
 	e := echo.New()
 	e.Pre(middleware.RemoveTrailingSlash())
-
+	e.Use(middleware.CORSWithConfig(middleware.CORSConfig{
+		AllowOrigins: []string{"*"},
+		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
+	}))
 	user := e.Group("/users")
 	user.POST("", presenter.UserPresenter.CreateUser)
 	user.GET("", presenter.UserPresenter.GetAllUser)

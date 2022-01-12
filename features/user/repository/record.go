@@ -8,7 +8,7 @@ import (
 )
 
 type User struct {
-	ID          int
+	Id          int
 	Name        string
 	PhoneNumber string
 	Email       string
@@ -20,7 +20,7 @@ type User struct {
 
 func (u *User) toCore() user.UserCore {
 	return user.UserCore{
-		Id:          u.ID,
+		Id:          u.Id,
 		Name:        u.Name,
 		PhoneNumber: u.PhoneNumber,
 		Email:       u.Email,
@@ -40,7 +40,7 @@ func toCoreSlice(users []User) []user.UserCore {
 
 func fromCore(core user.UserCore) User {
 	return User{
-		ID:          core.Id,
+		Id:          core.Id,
 		Name:        core.Name,
 		PhoneNumber: core.PhoneNumber,
 		Email:       core.Email,
