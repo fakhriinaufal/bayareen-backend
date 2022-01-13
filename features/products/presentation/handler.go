@@ -101,20 +101,21 @@ func (ph *ProductHandler) Update(c echo.Context) error {
 }
 
 func (ph *ProductHandler) Delete(c echo.Context) error {
-	id, err := strconv.Atoi(c.Param("id"))
+	var ids _product_request.Ids
+	err := c.Bind(&ids)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message: err.Error(),
 		})
 	}
 
-	err = ph.ProductBusiness.Delete(id)
+	err = ph.ProductBusiness.Delete(ids.Id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
 			Message: err.Error(),
 		})
 	}
 	return c.JSON(http.StatusOK, response.BasicResponse{
-		Message: err.Error(),
+		Message: "success",
 	})
 }
