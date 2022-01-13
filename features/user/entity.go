@@ -8,6 +8,7 @@ type UserCore struct {
 	PhoneNumber string `validate:"required"`
 	Email       string `validate:"required"`
 	Password    string `validate:"required"`
+	Token       string
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 }
@@ -18,6 +19,7 @@ type Business interface {
 	GetById(id int) (UserCore, error)
 	Update(data UserCore) (UserCore, error)
 	Delete(id int) error
+	Login(UserCore) (UserCore, error)
 }
 
 type Data interface {
@@ -26,4 +28,5 @@ type Data interface {
 	GetById(id int) (UserCore, error)
 	Update(data UserCore) (UserCore, error)
 	Delete(id int) error
+	Login(UserCore) (UserCore, error)
 }
