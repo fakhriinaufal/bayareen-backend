@@ -7,6 +7,7 @@ type User struct {
 	Name        string `json:"name"`
 	PhoneNumber string `json:"phone_number"`
 	Email       string `json:"email"`
+	Token       string `json:"token"`
 }
 
 func FromCore(core *user.UserCore) User {
@@ -15,6 +16,7 @@ func FromCore(core *user.UserCore) User {
 		Name:        core.Name,
 		PhoneNumber: core.PhoneNumber,
 		Email:       core.Email,
+		Token:       core.Token,
 	}
 }
 
