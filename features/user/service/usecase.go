@@ -2,6 +2,9 @@ package service
 
 import (
 	"bayareen-backend/features/user"
+	"bayareen-backend/helper/bcrypt"
+	"bayareen-backend/middleware"
+	"errors"
 
 	"github.com/go-playground/validator/v10"
 )
@@ -20,6 +23,11 @@ func NewUserUsecase(userData user.Data) user.Business {
 
 func (uu *userUseCase) Create(data user.UserCore) (resp user.UserCore, err error) {
 	if err := uu.validator.Struct(data); err != nil {
+		return user.UserCore{}, err
+	}
+
+	data.Password, err = bcrypt.Hash(data.Password)
+	if err != nil {
 		return user.UserCore{}, err
 	}
 
@@ -74,4 +82,31 @@ func (uu *userUseCase) Delete(id int) error {
 	}
 
 	return uu.userData.Delete(id)
+}
+
+func (uc *userUseCase) Login(core user.UserCore) (user.UserCore, error) {
+	if core.Email == "" {
+		return user.UserCore{}, errors.New("email empty")
+	}
+
+	if core.Password == "" {
+		return user.UserCore{}, errors.New("password empty")
+	}
+
+	userData, err := uc.userData.Login(core)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+	temp := bcrypt.ValidateHash(core.Password, userData.Password)
+
+	if temp {
+		return user.UserCore{}, errors.New("password salah")
+	}
+
+	userData.Token, err = middleware.CreateToken(core.Id, false)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	return userData, nil
 }
