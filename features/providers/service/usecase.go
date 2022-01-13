@@ -36,6 +36,14 @@ func (pu *providerUsecase) GetAll() []providers.Core {
 	return pu.ProviderData.GetAll()
 }
 
+func (pu *providerUsecase) GetByCategoryId(catId int) ([]providers.Core, error) {
+	result, err := pu.ProviderData.GetByCategoryId(catId)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
+}
+
 func (pu *providerUsecase) GetById(id int) (*providers.Core, error) {
 	resp, err := pu.ProviderData.GetById(id)
 	if err != nil {

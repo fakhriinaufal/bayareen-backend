@@ -8,7 +8,7 @@ type Core struct {
 	CatId      int
 	Name       string `validate:"required"`
 	Price      int    `validate:"required"`
-	Status     bool   `validate:"required"`
+	Status     bool
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 }
