@@ -10,6 +10,10 @@ type Product struct {
 	Status     bool   `json:"status"`
 }
 
+type Ids struct {
+	Id []int `json:"id"`
+}
+
 func (p *Product) ToCore() *products.Core {
 	return &products.Core{
 		ProviderId: p.ProviderId,
