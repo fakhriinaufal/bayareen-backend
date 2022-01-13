@@ -49,7 +49,7 @@ func New() *echo.Echo {
 	product.GET("", presenter.ProductPresenter.GetAll)
 	product.GET("/:id", presenter.ProductPresenter.GetById)
 	product.PATCH("/:id", presenter.ProductPresenter.Update)
-	product.DELETE("/:id", presenter.ProductPresenter.Delete)
+	product.DELETE("", presenter.ProductPresenter.Delete)
 
 	admin := e.Group("/admins")
 	admin.POST("", presenter.AdminPresenter.Create)
