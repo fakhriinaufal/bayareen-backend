@@ -46,6 +46,6 @@ func (repo *postgresProductRepository) Update(data *products.Core) (*products.Co
 	return record.ToCore(), nil
 }
 
-func (repo *postgresProductRepository) Delete(id int) error {
-	return repo.Conn.Delete(&Product{Id: id}).Error
+func (repo *postgresProductRepository) Delete(id []int) error {
+	return repo.Conn.Delete(&Product{}, id).Error
 }
