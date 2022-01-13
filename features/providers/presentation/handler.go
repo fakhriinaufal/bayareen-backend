@@ -45,7 +45,32 @@ func (ph *ProviderHandler) Create(c echo.Context) error {
 }
 
 func (ph *ProviderHandler) GetAll(c echo.Context) error {
-	resp := ph.ProviderBusiness.GetAll()
+	catIdStr := c.QueryParam("catId")
+
+	var resp []providers.Core
+	var err error
+	if catIdStr != "" {
+		catId, err := strconv.Atoi(catIdStr)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, response.ErrorResponse{
+				Message: err.Error(),
+			})
+		}
+		resp, err = ph.ProviderBusiness.GetByCategoryId(catId)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, response.ErrorResponse{
+				Message: err.Error(),
+			})
+		}
+	} else {
+		resp = ph.ProviderBusiness.GetAll()
+	}
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.BasicResponse{
+			Message: err.Error(),
+		})
+	}
 
 	return c.JSON(http.StatusOK, response.BasicResponse{
 		Message: "success",

@@ -95,7 +95,9 @@ func (ph *ProductHandler) Update(c echo.Context) error {
 		})
 	}
 
-	return c.JSON(http.StatusNoContent, []int{})
+	return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "success",
+	})
 }
 
 func (ph *ProductHandler) Delete(c echo.Context) error {

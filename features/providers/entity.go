@@ -14,6 +14,7 @@ type Business interface {
 	Create(data *Core) (*Core, error)
 	GetAll() []Core
 	GetById(id int) (*Core, error)
+	GetByCategoryId(catId int) ([]Core, error)
 	Update(data *Core) (*Core, error)
 	Delete(id int) error
 }
@@ -22,6 +23,7 @@ type Data interface {
 	Create(data *Core) (*Core, error)
 	GetAll() []Core
 	GetById(id int) (*Core, error)
+	GetByCategoryId(catId int) ([]Core, error)
 	Update(data *Core) (*Core, error)
 	Delete(id int) error
 }

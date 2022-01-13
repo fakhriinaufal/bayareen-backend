@@ -26,6 +26,15 @@ func (repo *posgresRepository) Create(data *providers.Core) (*providers.Core, er
 	return record.ToCore(), nil
 }
 
+func (repo *posgresRepository) GetByCategoryId(catId int) ([]providers.Core, error) {
+	records := []Provider{}
+	if err := repo.Conn.Where("cat_id = ?", catId).Find(&records).Error; err != nil {
+		return nil, err
+	}
+
+	return ToCoreSlice(records), nil
+}
+
 func (repo *posgresRepository) GetAll() []providers.Core {
 	records := []Provider{}
 	repo.Conn.Find(&records)
