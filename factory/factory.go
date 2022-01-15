@@ -1,7 +1,10 @@
 package factory
 
 import (
+	"bayareen-backend/config"
 	"bayareen-backend/driver"
+	"log"
+
 	// user domain
 	_userHandler "bayareen-backend/features/user/presentation"
 	_userData "bayareen-backend/features/user/repository"
@@ -18,9 +21,9 @@ import (
 	_categoryUsecase "bayareen-backend/features/categories/service"
 
 	// payment method domain
-	_paymentMethodHandler "bayareen-backend/features/paymentmethods/presentation"
+	// _paymentMethodHandler "bayareen-backend/features/paymentmethods/presentation"
 	_paymentMethodData "bayareen-backend/features/paymentmethods/repository"
-	_paymentMethodUsecase "bayareen-backend/features/paymentmethods/service"
+	// _paymentMethodUsecase "bayareen-backend/features/paymentmethods/service"
 
 	// product domain
 	_productHandler "bayareen-backend/features/products/presentation"
@@ -32,15 +35,23 @@ import (
 	_adminData "bayareen-backend/features/admins/repository"
 	_adminUsecase "bayareen-backend/features/admins/service"
 
+	// xendit
+	_paymentGatewayData "bayareen-backend/features/payment_gateway/repository"
+
+	// transaction domain
+	_transactionHandler "bayareen-backend/features/transaction/presentation"
+	_transactionData "bayareen-backend/features/transaction/repository"
+	_transactionUsecase "bayareen-backend/features/transaction/service"
 )
 
 type Presenter struct {
-	UserPresenter          *_userHandler.UserHandler
-	CategoryPresenter      *_categoryHandler.CategoryHandler
-	PaymentMethodPresenter *_paymentMethodHandler.PaymentMethodHandler
-	ProviderPresenter      *_providerHandler.ProviderHandler
-	ProductPresenter       *_productHandler.ProductHandler
-	AdminPresenter         *_adminHandler.AdminHandler
+	UserPresenter     *_userHandler.UserHandler
+	CategoryPresenter *_categoryHandler.CategoryHandler
+	// PaymentMethodPresenter *_paymentMethodHandler.PaymentMethodHandler
+	ProviderPresenter    *_providerHandler.ProviderHandler
+	ProductPresenter     *_productHandler.ProductHandler
+	AdminPresenter       *_adminHandler.AdminHandler
+	TransactionPresenter *_transactionHandler.TransactionHandler
 }
 
 func Init() Presenter {
@@ -58,8 +69,8 @@ func Init() Presenter {
 	categoryHandler := _categoryHandler.NewCategoryHandler(categoryUsecase)
 
 	paymentMethodData := _paymentMethodData.NewPostgresPaymentMethodRepository(driver.DB)
-	paymentMethodUsecase := _paymentMethodUsecase.NewPaymentMethodUsecase(paymentMethodData)
-	paymentMethodHandler := _paymentMethodHandler.NewPaymentMethodHandler(paymentMethodUsecase)
+	// paymentMethodUsecase := _paymentMethodUsecase.NewPaymentMethodUsecase(paymentMethodData)
+	// paymentMethodHandler := _paymentMethodHandler.NewPaymentMethodHandler(paymentMethodUsecase)
 
 	productData := _productData.NewPostgresProductRepository(driver.DB)
 	productUsecase := _productUsecase.NewProductUsecase(productData, categoryData, providerData)
@@ -69,12 +80,24 @@ func Init() Presenter {
 	adminUsecase := _adminUsecase.NewAdminUsecase(adminData)
 	adminHandler := _adminHandler.NewAdminHandler(adminUsecase)
 
+	xenditKey, err := config.LoadXenditKey(".")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	paymentGatewayData := _paymentGatewayData.NewPaymentGatewayData(xenditKey.WriteKey, xenditKey.ReadKey)
+
+	transactionData := _transactionData.NewPostgresTransactionRepository(driver.DB)
+	transactionUsecase := _transactionUsecase.NewTransactionUsecase(paymentGatewayData, transactionData, productData, userData, paymentMethodData)
+	transactionHandler := _transactionHandler.NewTransactionHandler(transactionUsecase)
+
 	return Presenter{
-		UserPresenter:          userHandler,
-		CategoryPresenter:      categoryHandler,
-		PaymentMethodPresenter: paymentMethodHandler,
-		ProviderPresenter:      providerHandler,
-		ProductPresenter:       productHandler,
-		AdminPresenter:         adminHandler,
+		UserPresenter:     userHandler,
+		CategoryPresenter: categoryHandler,
+		// PaymentMethodPresenter: paymentMethodHandler,
+		ProviderPresenter:    providerHandler,
+		ProductPresenter:     productHandler,
+		AdminPresenter:       adminHandler,
+		TransactionPresenter: transactionHandler,
 	}
 }
