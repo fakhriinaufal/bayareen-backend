@@ -7,6 +7,7 @@ import (
 	_paymentMethodRepo "bayareen-backend/features/paymentmethods/repository"
 	_productRepo "bayareen-backend/features/products/repository"
 	_providerRepo "bayareen-backend/features/providers/repository"
+	_transactionRepo "bayareen-backend/features/transaction/repository"
 	_userRepo "bayareen-backend/features/user/repository"
 	"fmt"
 	"log"
@@ -24,6 +25,7 @@ func MigrateDB() {
 	DB.AutoMigrate(&_categoryRepo.Category{})
 	DB.AutoMigrate(&_paymentMethodRepo.PaymentMethod{})
 	DB.AutoMigrate(&_productRepo.Product{})
+	DB.AutoMigrate(&_transactionRepo.Transaction{})
 }
 
 func InitDB() {
