@@ -3,6 +3,7 @@ package presentation
 import (
 	"bayareen-backend/features/transaction"
 	"bayareen-backend/features/transaction/presentation/request"
+	_trans_response "bayareen-backend/features/transaction/presentation/response"
 	"bayareen-backend/helper/response"
 	"net/http"
 
@@ -36,10 +37,7 @@ func (th *TransactionHandler) Create(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response.BasicResponse{
 		Message: "success",
-		Data: map[string]interface{}{
-			"transaction": transaction,
-			"invoice":     inv,
-		},
+		Data:    _trans_response.FromCore(transaction, inv),
 	})
 }
 
