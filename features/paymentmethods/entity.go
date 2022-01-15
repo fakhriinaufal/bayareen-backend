@@ -3,10 +3,11 @@ package paymentmethods
 import "time"
 
 type Core struct {
-	Id        int
-	Name      string `validate:"required"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	Id             int
+	PaymentMethod  string `validate:"required"`
+	PaymentChannel string `validate:"required"`
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
 }
 
 type Business interface {
@@ -15,6 +16,7 @@ type Business interface {
 	GetById(id int) (*Core, error)
 	Update(data *Core) (*Core, error)
 	Delete(id int) error
+	GetByName(method string, channel string) (int, error)
 }
 
 type Data interface {
@@ -23,4 +25,5 @@ type Data interface {
 	GetById(id int) (*Core, error)
 	Update(data *Core) (*Core, error)
 	Delete(id int) error
+	GetByName(method string, channel string) (int, error)
 }
