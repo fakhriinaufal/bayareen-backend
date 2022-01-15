@@ -29,7 +29,7 @@ func NewTransactionUsecase(paymentGatewayData payment_gateway.Data, transactionD
 }
 
 func (tu *transactionUsecase) Create(data *transaction.Core) (*transaction.Core, payment_gateway.InvoiceData, error) {
-	data.Status = "Pending"
+	data.Status = "PENDING"
 	data.CreatedAt = time.Now()
 	trans, err := tu.TransactionData.Create(data)
 	if err != nil {
