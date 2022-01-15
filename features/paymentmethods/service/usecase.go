@@ -75,3 +75,12 @@ func (pmu *paymentMethodUsecase) Delete(id int) error {
 
 	return pmu.PaymentMethodData.Delete(id)
 }
+
+func (pmu *paymentMethodUsecase) GetByName(method string, channel string) (int, error) {
+	id, err := pmu.PaymentMethodData.GetByName(method, channel)
+	if err != nil {
+		return 0, err
+	}
+
+	return id, nil
+}
