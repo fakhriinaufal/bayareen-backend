@@ -70,17 +70,15 @@ func (tu *transactionUsecase) Create(data *transaction.Core) (*transaction.Core,
 func (tu *transactionUsecase) UpdatePayment(callbackData transaction.XenditCallback) error {
 	paymentMethodId, _ := tu.paymentMethodData.GetByName(callbackData.PaymentMethod, callbackData.PaymentChannel)
 
-	var method *paymentmethods.Core
-	var err error
-
 	if paymentMethodId == 0 {
-		method, err = tu.paymentMethodData.Create(&paymentmethods.Core{
+		method, err := tu.paymentMethodData.Create(&paymentmethods.Core{
 			PaymentMethod:  callbackData.PaymentMethod,
 			PaymentChannel: callbackData.PaymentChannel,
 		})
 		if err != nil {
 			return err
 		}
+		paymentMethodId = method.Id
 	}
 
 	id, err := strconv.Atoi(callbackData.TransactionId)
@@ -91,7 +89,7 @@ func (tu *transactionUsecase) UpdatePayment(callbackData transaction.XenditCallb
 	_, err = tu.TransactionData.Update(&transaction.Core{
 		Id:              id,
 		Status:          callbackData.Status,
-		PaymentMethodId: method.Id,
+		PaymentMethodId: paymentMethodId,
 	})
 	if err != nil {
 		return err
