@@ -60,3 +60,15 @@ func (repo *mySqlRepository) Delete(id int) error {
 	}
 	return repo.Conn.Delete(&record).Error
 }
+
+func (repo *mySqlRepository) Login(data user.UserCore) (user.UserCore, error) {
+	var userRecord User
+
+	repo.Conn.Raw("SELECT password FROM users WHERE email = ?", data.Email).Scan(&data.Password)
+
+	if err := repo.Conn.First(&userRecord, "email = ?", data.Email).Error; err != nil {
+		return user.UserCore{}, err
+	}
+
+	return userRecord.toCore(), nil
+}

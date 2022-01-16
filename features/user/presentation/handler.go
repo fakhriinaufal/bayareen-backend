@@ -2,6 +2,7 @@ package presentation
 
 import (
 	"bayareen-backend/features/user"
+	"bayareen-backend/features/user/presentation/request"
 	presentation_request "bayareen-backend/features/user/presentation/request"
 	presentation_response "bayareen-backend/features/user/presentation/response"
 	"bayareen-backend/helper/response"
@@ -90,4 +91,25 @@ func (uh *UserHandler) Delete(c echo.Context) error {
 	}
 
 	return c.JSON(http.StatusNoContent, []int{})
+}
+
+func (uh *UserHandler) Login(c echo.Context) error {
+	var user request.User
+	if err := c.Bind(&user); err != nil {
+		c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	userData, err := uh.userBussiness.Login(user.ToCore())
+	if err != nil {
+		c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "success",
+		Data:    presentation_response.FromCore(&userData),
+	})
 }
