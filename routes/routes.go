@@ -59,6 +59,7 @@ func New() *echo.Echo {
 	admin.DELETE("/:id", presenter.AdminPresenter.Delete)
 
 	transaction := e.Group("/transactions")
+	transaction.GET("", presenter.TransactionPresenter.GetByUserId)
 	transaction.POST("", presenter.TransactionPresenter.Create)
 	transaction.POST("/callbacks", presenter.TransactionPresenter.PaymentCallback)
 
