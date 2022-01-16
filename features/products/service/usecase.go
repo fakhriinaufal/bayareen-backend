@@ -100,3 +100,12 @@ func (pu *productUsecase) Update(data *products.Core) (*products.Core, error) {
 func (pu *productUsecase) Delete(id []int) error {
 	return pu.productData.Delete(id)
 }
+
+func (pu *productUsecase) GetByProviderId(provId int) ([]products.Core, error) {
+	data, err := pu.productData.GetByProviderId(provId)
+	if err != nil {
+		return nil, err
+	}
+
+	return data, nil
+}

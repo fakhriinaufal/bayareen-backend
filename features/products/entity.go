@@ -19,6 +19,7 @@ type Business interface {
 	GetById(id int) (*Core, error)
 	Update(data *Core) (*Core, error)
 	Delete(id []int) error
+	GetByProviderId(providerId int) ([]Core, error)
 }
 
 type Data interface {
@@ -27,4 +28,5 @@ type Data interface {
 	GetById(id int) (*Core, error)
 	Update(data *Core) (*Core, error)
 	Delete(id []int) error
+	GetByProviderId(providerId int) ([]Core, error)
 }
