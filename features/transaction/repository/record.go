@@ -5,6 +5,7 @@ import (
 
 	"gorm.io/gorm"
 
+	"bayareen-backend/features/products/repository"
 	"bayareen-backend/features/transaction"
 )
 
@@ -18,6 +19,7 @@ type Transaction struct {
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
 	DeletedAt       gorm.DeletedAt `gorm:"index"`
+	Product         repository.Product
 }
 
 func (t *Transaction) ToCore() *transaction.Core {
@@ -30,6 +32,7 @@ func (t *Transaction) ToCore() *transaction.Core {
 		Status:          t.Status,
 		CreatedAt:       t.CreatedAt,
 		UpdatedAt:       t.UpdatedAt,
+		Product:         *t.Product.ToCore(),
 	}
 }
 
@@ -42,4 +45,12 @@ func FromCore(data *transaction.Core) *Transaction {
 		PaymentMethodId: data.PaymentMethodId,
 		Status:          data.Status,
 	}
+}
+
+func ToCoreList(data []Transaction) []transaction.Core {
+	convert := []transaction.Core{}
+	for _, tr := range data {
+		convert = append(convert, *tr.ToCore())
+	}
+	return convert
 }
