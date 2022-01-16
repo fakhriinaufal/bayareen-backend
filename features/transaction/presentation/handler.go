@@ -6,6 +6,7 @@ import (
 	_trans_response "bayareen-backend/features/transaction/presentation/response"
 	"bayareen-backend/helper/response"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -28,7 +29,7 @@ func (th *TransactionHandler) Create(c echo.Context) error {
 		})
 	}
 
-	transaction, inv, err := th.TransactionBusiness.Create(transactionRequest.ToCore())
+	transaction, err := th.TransactionBusiness.Create(transactionRequest.ToCore())
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
 			Message: err.Error(),
@@ -37,7 +38,7 @@ func (th *TransactionHandler) Create(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response.BasicResponse{
 		Message: "success",
-		Data:    _trans_response.FromCore(transaction, inv),
+		Data:    _trans_response.ToTransactionResponse(transaction),
 	})
 }
 
@@ -54,5 +55,26 @@ func (th *TransactionHandler) PaymentCallback(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, response.BasicResponse{
 		Message: "success",
+	})
+}
+
+func (th *TransactionHandler) GetByUserId(c echo.Context) error {
+	userId, err := strconv.Atoi(c.QueryParam("userId"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	res, err := th.TransactionBusiness.GetByUserId(userId)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "success",
+		Data:    _trans_response.ToTransactionProductsResponse(res),
 	})
 }
