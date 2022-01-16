@@ -28,22 +28,22 @@ func NewTransactionUsecase(paymentGatewayData payment_gateway.Data, transactionD
 	}
 }
 
-func (tu *transactionUsecase) Create(data *transaction.Core) (*transaction.Core, payment_gateway.InvoiceData, error) {
+func (tu *transactionUsecase) Create(data *transaction.Core) (*transaction.Core, error) {
 	data.Status = "PENDING"
 	data.CreatedAt = time.Now()
 	trans, err := tu.TransactionData.Create(data)
 	if err != nil {
-		return &transaction.Core{}, payment_gateway.InvoiceData{}, err
+		return &transaction.Core{}, err
 	}
 
 	product, err := tu.ProductData.GetById(data.ProductId)
 	if err != nil {
-		return &transaction.Core{}, payment_gateway.InvoiceData{}, err
+		return &transaction.Core{}, err
 	}
 
 	user, err := tu.UserData.GetById(data.UserId)
 	if err != nil {
-		return &transaction.Core{}, payment_gateway.InvoiceData{}, err
+		return &transaction.Core{}, err
 	}
 
 	inv, err := tu.PaymentGatewayData.CreateInvoice(payment_gateway.InvoiceObj{
@@ -55,16 +55,18 @@ func (tu *transactionUsecase) Create(data *transaction.Core) (*transaction.Core,
 		Currency:    "IDR",
 	})
 	if err != nil {
-		return &transaction.Core{}, payment_gateway.InvoiceData{}, err
+		return &transaction.Core{}, err
 	}
 
 	trans.InvoiceId = inv.Id
 	trans, err = tu.TransactionData.Update(trans)
 	if err != nil {
-		return &transaction.Core{}, payment_gateway.InvoiceData{}, err
+		return &transaction.Core{}, err
 	}
 
-	return trans, inv, nil
+	trans.InvoiceUrl = inv.InvoiceUrl
+
+	return trans, nil
 }
 
 func (tu *transactionUsecase) UpdatePayment(callbackData transaction.XenditCallback) error {
@@ -96,4 +98,12 @@ func (tu *transactionUsecase) UpdatePayment(callbackData transaction.XenditCallb
 	}
 
 	return nil
+}
+
+func (tu *transactionUsecase) GetByUserId(userId int) ([]transaction.Core, error) {
+	transaction, err := tu.TransactionData.GetByUserId(userId)
+	if err != nil {
+		return nil, err
+	}
+	return transaction, nil
 }
