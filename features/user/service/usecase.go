@@ -99,7 +99,7 @@ func (uc *userUseCase) Login(core user.UserCore) (user.UserCore, error) {
 	}
 	temp := bcrypt.ValidateHash(core.Password, userData.Password)
 
-	if temp {
+	if !temp {
 		return user.UserCore{}, errors.New("password salah")
 	}
 
