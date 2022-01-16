@@ -26,7 +26,7 @@ func (repo *postgresProductRepository) Create(data *products.Core) (*products.Co
 
 func (repo *postgresProductRepository) GetAll() []products.Core {
 	records := []Product{}
-	repo.Conn.Find(&records)
+	repo.Conn.Where("status = ?", true).Find(&records)
 	return ToCoreSlice(records)
 }
 
@@ -48,4 +48,14 @@ func (repo *postgresProductRepository) Update(data *products.Core) (*products.Co
 
 func (repo *postgresProductRepository) Delete(id []int) error {
 	return repo.Conn.Delete(&Product{}, id).Error
+}
+
+func (repo *postgresProductRepository) GetByProviderId(provId int) ([]products.Core, error) {
+	var records []Product
+	err := repo.Conn.Where("provider_id = ? AND status = ?", provId, true).Find(&records).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return ToCoreSlice(records), nil
 }
