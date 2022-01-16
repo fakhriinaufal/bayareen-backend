@@ -43,7 +43,28 @@ func (ph *ProductHandler) Create(c echo.Context) error {
 }
 
 func (ph *ProductHandler) GetAll(c echo.Context) error {
-	resp := ph.ProductBusiness.GetAll()
+	provQuery := c.QueryParam("providerId")
+
+	var resp []products.Core
+
+	if provQuery == "" {
+		resp = ph.ProductBusiness.GetAll()
+	} else {
+		providerId, err := strconv.Atoi(provQuery)
+		if err != nil {
+			return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+				Message: err.Error(),
+			})
+		}
+
+		resp, err = ph.ProductBusiness.GetByProviderId(providerId)
+		if err != nil {
+			return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+				Message: err.Error(),
+			})
+		}
+	}
+
 	return c.JSON(http.StatusOK, response.BasicResponse{
 		Message: "success",
 		Data:    _product_response.FromCoreSlice(resp),
