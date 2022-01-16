@@ -1,7 +1,7 @@
 package transaction
 
 import (
-	"bayareen-backend/features/payment_gateway"
+	"bayareen-backend/features/products"
 	"time"
 )
 
@@ -10,10 +10,12 @@ type Core struct {
 	UserId          int
 	ProductId       int
 	InvoiceId       string
+	InvoiceUrl      string
 	PaymentMethodId int
 	Status          string
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
+	Product         products.Core
 }
 
 type XenditCallback struct {
@@ -27,9 +29,11 @@ type XenditCallback struct {
 type Data interface {
 	Create(*Core) (*Core, error)
 	Update(*Core) (*Core, error)
+	GetByUserId(userId int) ([]Core, error)
 }
 
 type Business interface {
-	Create(*Core) (*Core, payment_gateway.InvoiceData, error)
+	Create(*Core) (*Core, error)
 	UpdatePayment(XenditCallback) error
+	GetByUserId(userId int) ([]Core, error)
 }
