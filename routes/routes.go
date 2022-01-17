@@ -1,6 +1,7 @@
 package routes
 
 import (
+	"bayareen-backend/config"
 	"bayareen-backend/factory"
 
 	"github.com/labstack/echo/v4"
@@ -23,6 +24,7 @@ func New() *echo.Echo {
 	user.PATCH("/:id", presenter.UserPresenter.Update)
 	user.DELETE("/:id", presenter.UserPresenter.Delete)
 	user.POST("/login", presenter.UserPresenter.Login)
+	user.GET("/auth", presenter.UserPresenter.JWTLogin, middleware.JWT([]byte(config.JWT_KEY)))
 
 	provider := e.Group("/providers")
 	provider.POST("", presenter.ProviderPresenter.Create)
