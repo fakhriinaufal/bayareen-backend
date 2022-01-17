@@ -3,6 +3,7 @@ package response
 import (
 	"bayareen-backend/features/products/presentation/response"
 	"bayareen-backend/features/transaction"
+	"time"
 )
 
 type TransactionResponse struct {
@@ -16,13 +17,14 @@ type TransactionResponse struct {
 }
 
 type TransactionProductResponse struct {
-	Id              int    `json:"id"`
-	UserId          int    `json:"user_id"`
-	ProductId       int    `json:"product_id"`
-	InvoiceId       string `json:"invoice_id"`
-	PaymentMethodId int    `json:"payment_method_id"`
-	Status          string `json:"status"`
-	Product         response.Product
+	Id              int              `json:"id"`
+	UserId          int              `json:"user_id"`
+	ProductId       int              `json:"product_id"`
+	InvoiceId       string           `json:"invoice_id"`
+	PaymentMethodId int              `json:"payment_method_id"`
+	Status          string           `json:"status"`
+	CreatedAt       time.Time        `json:"created_at"`
+	Product         response.Product `json:"product"`
 }
 
 func ToTransactionResponse(trans *transaction.Core) TransactionResponse {
@@ -46,6 +48,7 @@ func ToTransactionProductResponse(trans *transaction.Core) TransactionProductRes
 		PaymentMethodId: trans.PaymentMethodId,
 		Status:          trans.Status,
 		Product:         *response.FromCore(&trans.Product),
+		CreatedAt:       trans.CreatedAt,
 	}
 }
 
