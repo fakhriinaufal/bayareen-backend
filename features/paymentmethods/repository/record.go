@@ -8,19 +8,21 @@ import (
 )
 
 type PaymentMethod struct {
-	Id        int
-	Name      string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt
+	Id             int
+	PaymentMethod  string
+	PaymentChannel string
+	CreatedAt      time.Time
+	UpdatedAt      time.Time
+	DeletedAt      gorm.DeletedAt
 }
 
 func (p *PaymentMethod) ToCore() *paymentmethods.Core {
 	return &paymentmethods.Core{
-		Id:        p.Id,
-		Name:      p.Name,
-		CreatedAt: p.CreatedAt,
-		UpdatedAt: p.UpdatedAt,
+		Id:             p.Id,
+		PaymentMethod:  p.PaymentMethod,
+		PaymentChannel: p.PaymentChannel,
+		CreatedAt:      p.CreatedAt,
+		UpdatedAt:      p.UpdatedAt,
 	}
 }
 
@@ -36,9 +38,10 @@ func ToCoreSlice(pmSlice []PaymentMethod) []paymentmethods.Core {
 
 func FromCore(core *paymentmethods.Core) *PaymentMethod {
 	return &PaymentMethod{
-		Id:        core.Id,
-		Name:      core.Name,
-		CreatedAt: core.CreatedAt,
-		UpdatedAt: core.UpdatedAt,
+		Id:             core.Id,
+		PaymentMethod:  core.PaymentMethod,
+		PaymentChannel: core.PaymentChannel,
+		CreatedAt:      core.CreatedAt,
+		UpdatedAt:      core.UpdatedAt,
 	}
 }

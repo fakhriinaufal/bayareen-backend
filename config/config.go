@@ -14,6 +14,26 @@ type Config struct {
 	ServerHost string `mapstructure:"SERVER_HOST"`
 }
 
+type XenditKey struct {
+	WriteKey string `mapstructure:"WRITE_KEY_XENDIT"`
+	ReadKey  string `mapstructure:"READ_KEY_XENDIT"`
+}
+
+func LoadXenditKey(path string) (key XenditKey, err error) {
+	viper.AddConfigPath(path)
+	viper.SetConfigFile(".env")
+
+	viper.AutomaticEnv()
+	err = viper.ReadInConfig()
+	if err != nil {
+		return XenditKey{}, err
+	}
+
+	err = viper.Unmarshal(&key)
+
+	return key, err
+}
+
 func LoadConfig(path string) (config Config, err error) {
 	viper.AddConfigPath(path)
 	viper.SetConfigFile(".env")

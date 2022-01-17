@@ -38,12 +38,12 @@ func New() *echo.Echo {
 	category.PATCH("/:id", presenter.CategoryPresenter.UpdateCategoryById)
 	category.DELETE("/:id", presenter.CategoryPresenter.DeleteCategoryById)
 
-	paymentMethod := e.Group("/payment-methods")
-	paymentMethod.POST("", presenter.PaymentMethodPresenter.Create)
-	paymentMethod.GET("", presenter.PaymentMethodPresenter.GetAll)
-	paymentMethod.GET("/:id", presenter.PaymentMethodPresenter.GetById)
-	paymentMethod.PATCH("/:id", presenter.PaymentMethodPresenter.Update)
-	paymentMethod.DELETE("/:id", presenter.PaymentMethodPresenter.Delete)
+	// paymentMethod := e.Group("/payment-methods")
+	// paymentMethod.POST("", presenter.PaymentMethodPresenter.Create)
+	// paymentMethod.GET("", presenter.PaymentMethodPresenter.GetAll)
+	// paymentMethod.GET("/:id", presenter.PaymentMethodPresenter.GetById)
+	// paymentMethod.PATCH("/:id", presenter.PaymentMethodPresenter.Update)
+	// paymentMethod.DELETE("/:id", presenter.PaymentMethodPresenter.Delete)
 
 	product := e.Group("/products")
 	product.POST("", presenter.ProductPresenter.Create)
@@ -58,6 +58,11 @@ func New() *echo.Echo {
 	admin.GET("/:id", presenter.AdminPresenter.GetById)
 	admin.PATCH("/:id", presenter.AdminPresenter.Update)
 	admin.DELETE("/:id", presenter.AdminPresenter.Delete)
+
+	transaction := e.Group("/transactions")
+	transaction.GET("", presenter.TransactionPresenter.GetByUserId)
+	transaction.POST("", presenter.TransactionPresenter.Create)
+	transaction.POST("/callbacks", presenter.TransactionPresenter.PaymentCallback)
 
 	return e
 }

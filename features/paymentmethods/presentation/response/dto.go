@@ -1,7 +1,6 @@
 package response
 
 import (
-	"bayareen-backend/features/paymentmethods"
 	"time"
 )
 
@@ -12,20 +11,20 @@ type PaymentMethod struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
-func FromCore(core *paymentmethods.Core) *PaymentMethod {
-	return &PaymentMethod{
-		Id:        core.Id,
-		Name:      core.Name,
-		CreatedAt: core.CreatedAt,
-		UpdatedAt: core.UpdatedAt,
-	}
-}
+// func FromCore(core *paymentmethods.Core) *PaymentMethod {
+// 	return &PaymentMethod{
+// 		Id:        core.Id,
+// 		Name:      core.Name,
+// 		CreatedAt: core.CreatedAt,
+// 		UpdatedAt: core.UpdatedAt,
+// 	}
+// }
 
-func FromCoreSlice(coreSlice []paymentmethods.Core) []PaymentMethod {
-	resp := []PaymentMethod{}
+// func FromCoreSlice(coreSlice []paymentmethods.Core) []PaymentMethod {
+// 	resp := []PaymentMethod{}
 
-	for _, val := range coreSlice {
-		resp = append(resp, *FromCore(&val))
-	}
-	return resp
-}
+// 	for _, val := range coreSlice {
+// 		resp = append(resp, *FromCore(&val))
+// 	}
+// 	return resp
+// }

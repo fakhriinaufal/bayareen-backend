@@ -55,3 +55,12 @@ func (repo *posgresPaymentMethodRepository) Update(data *paymentmethods.Core) (*
 func (repo *posgresPaymentMethodRepository) Delete(id int) error {
 	return repo.Conn.Delete(&PaymentMethod{Id: id}).Error
 }
+
+func (repo *posgresPaymentMethodRepository) GetByName(method, channel string) (int, error) {
+	var paymentMethod PaymentMethod
+	err := repo.Conn.Where("payment_method = ? AND payment_channel = ?", method, channel).First(&paymentMethod).Error
+	if err != nil {
+		return 0, err
+	}
+	return paymentMethod.Id, nil
+}
