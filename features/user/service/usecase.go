@@ -103,7 +103,7 @@ func (uc *userUseCase) Login(core user.UserCore) (user.UserCore, error) {
 		return user.UserCore{}, errors.New("password salah")
 	}
 
-	userData.Token, err = middleware.CreateToken(core.Id, false)
+	userData.Token, err = middleware.CreateToken(userData.Id, false)
 	if err != nil {
 		return user.UserCore{}, err
 	}
