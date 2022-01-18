@@ -25,7 +25,7 @@ jobs:
       run: |
         echo "DB_HOST=$DB_HOST" > .env
         echo "DB_PORT=$DB_PORT" >> .env
-        echo "DB_USERNAME=$DB_USERNAME" >> .env
+        echo "DB_USER=$DB_USERNAME" >> .env
         echo "DB_PASS=$DB_PASSWORD" >> .env
         echo "DB_NAME=$DB_NAME" >> .env
     - name: Build the Docker image
