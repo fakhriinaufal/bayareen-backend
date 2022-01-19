@@ -9,8 +9,10 @@ type Core struct {
 	Id              int
 	UserId          int
 	ProductId       int
+	Price           int
 	InvoiceId       string
 	InvoiceUrl      string
+	ReferenceId     string
 	PaymentMethodId int
 	Status          string
 	CreatedAt       time.Time
@@ -20,7 +22,7 @@ type Core struct {
 
 type XenditCallback struct {
 	Id             string
-	TransactionId  string
+	ReferenceId    string
 	Status         string
 	PaymentMethod  string
 	PaymentChannel string
@@ -29,6 +31,7 @@ type XenditCallback struct {
 type Data interface {
 	Create(*Core) (*Core, error)
 	Update(*Core) (*Core, error)
+	UpdateByReferenceId(*Core) (*Core, error)
 	GetByUserId(userId int) ([]Core, error)
 }
 
