@@ -21,7 +21,7 @@ func NewPaymentGatewayData(writeKey string, readKey string) payment_gateway.Data
 
 func (pr *PaymentGatewayRepository) CreateInvoice(inv payment_gateway.InvoiceObj) (payment_gateway.InvoiceData, error) {
 	xendit.Opt.SecretKey = pr.WriteKey
-	shouldSendEmail := true
+	shouldSendEmail := false
 	data := invoice.CreateParams{
 		ExternalID:         inv.Id,
 		Amount:             inv.Amount,
@@ -31,12 +31,7 @@ func (pr *PaymentGatewayRepository) CreateInvoice(inv payment_gateway.InvoiceObj
 		PayerEmail:         inv.Email,
 		ShouldSendEmail:    &shouldSendEmail,
 		Description:        inv.Description,
-		CustomerNotificationPreference: xendit.InvoiceCustomerNotificationPreference{
-			InvoiceCreated:  []string{"email"},
-			InvoiceReminder: []string{"email"},
-			InvoicePaid:     []string{"email"},
-			InvoiceExpired:  []string{"email"},
-		},
+
 		Customer: xendit.InvoiceCustomer{
 			GivenNames: inv.Name,
 			Email:      inv.Email,
