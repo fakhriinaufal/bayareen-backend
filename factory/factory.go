@@ -42,6 +42,9 @@ import (
 	_transactionHandler "bayareen-backend/features/transaction/presentation"
 	_transactionData "bayareen-backend/features/transaction/repository"
 	_transactionUsecase "bayareen-backend/features/transaction/service"
+
+	// email domain;
+	_emailUsecase "bayareen-backend/features/email/service"
 )
 
 type Presenter struct {
@@ -85,10 +88,12 @@ func Init() Presenter {
 		log.Fatal(err)
 	}
 
+	emailUsecase := _emailUsecase.NewEmailService("./config/config.toml")
+
 	paymentGatewayData := _paymentGatewayData.NewPaymentGatewayData(xenditKey.WriteKey, xenditKey.ReadKey)
 
 	transactionData := _transactionData.NewPostgresTransactionRepository(driver.DB)
-	transactionUsecase := _transactionUsecase.NewTransactionUsecase(paymentGatewayData, transactionData, productData, userData, paymentMethodData)
+	transactionUsecase := _transactionUsecase.NewTransactionUsecase(paymentGatewayData, transactionData, productData, userData, paymentMethodData, emailUsecase)
 	transactionHandler := _transactionHandler.NewTransactionHandler(transactionUsecase)
 
 	return Presenter{
