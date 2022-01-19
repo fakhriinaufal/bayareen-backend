@@ -43,7 +43,13 @@ func (tr *transactionRepository) UpdateByReferenceId(data *transaction.Core) (*t
 		return &transaction.Core{}, err
 	}
 
-	return record.ToCore(), nil
+	var trans Transaction
+	err = tr.Conn.Where("reference_id = ?", record.ReferenceId).First(&trans).Error
+	if err != nil {
+		return &transaction.Core{}, err
+	}
+
+	return trans.ToCore(), nil
 }
 
 func (tr *transactionRepository) GetByUserId(userId int) ([]transaction.Core, error) {
