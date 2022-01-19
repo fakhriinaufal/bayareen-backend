@@ -2,6 +2,7 @@ package email
 
 import (
 	"fmt"
+	"html/template"
 	"time"
 )
 
@@ -9,7 +10,7 @@ type invoiceMailData struct {
 	Username   string
 	Price      string
 	Product    string
-	InvoiceUrl string
+	InvoiceUrl template.URL
 }
 
 type paymentConfirmMailData struct {
@@ -38,11 +39,12 @@ func NewEmailRequest(to []string, subject string) *Request {
 	}
 }
 
-func NewInvoiceMailData(username string, price int, product string) *invoiceMailData {
+func NewInvoiceMailData(username string, price int, product string, invoiceUrl string) *invoiceMailData {
 	return &invoiceMailData{
-		Username: username,
-		Price:    "RP " + fmt.Sprintf("%v", price),
-		Product:  product,
+		Username:   username,
+		Price:      "RP " + fmt.Sprintf("%v", price),
+		Product:    product,
+		InvoiceUrl: template.URL(invoiceUrl),
 	}
 }
 
