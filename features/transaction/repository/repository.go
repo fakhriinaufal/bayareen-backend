@@ -35,6 +35,17 @@ func (tr *transactionRepository) Update(data *transaction.Core) (*transaction.Co
 	return record.ToCore(), nil
 }
 
+func (tr *transactionRepository) UpdateByReferenceId(data *transaction.Core) (*transaction.Core, error) {
+	record := FromCore(data)
+
+	err := tr.Conn.Model(&Transaction{}).Where("reference_id = ?", record.ReferenceId).Updates(record).Error
+	if err != nil {
+		return &transaction.Core{}, err
+	}
+
+	return record.ToCore(), nil
+}
+
 func (tr *transactionRepository) GetByUserId(userId int) ([]transaction.Core, error) {
 	var transactions []Transaction
 	err := tr.Conn.Debug().Joins("Product").Where(&Transaction{UserId: userId}).Find(&transactions).Error

@@ -6,8 +6,10 @@ import (
 	"bayareen-backend/features/products"
 	"bayareen-backend/features/transaction"
 	"bayareen-backend/features/user"
-	"strconv"
+	"errors"
 	"time"
+
+	"github.com/google/uuid"
 )
 
 type transactionUsecase struct {
@@ -29,28 +31,36 @@ func NewTransactionUsecase(paymentGatewayData payment_gateway.Data, transactionD
 }
 
 func (tu *transactionUsecase) Create(data *transaction.Core) (*transaction.Core, error) {
-	data.Status = "PENDING"
-	data.CreatedAt = time.Now()
-	trans, err := tu.TransactionData.Create(data)
-	if err != nil {
-		return &transaction.Core{}, err
-	}
-
+	// get product by id to get price and check existence
 	product, err := tu.ProductData.GetById(data.ProductId)
 	if err != nil {
 		return &transaction.Core{}, err
 	}
 
+	// if product is not PDAM/Listrik, use price from product
+	if product.Name != "PDAM" && product.Name != "Listrik" {
+		data.Price = product.Price
+	}
+
+	// check existence of user with specific id
 	user, err := tu.UserData.GetById(data.UserId)
 	if err != nil {
 		return &transaction.Core{}, err
 	}
+	if user.Id == 0 {
+		return &transaction.Core{}, errors.New("user doesn't exist")
+	}
 
+	data.Status = "PENDING"
+	data.CreatedAt = time.Now()
+	referenceId := uuid.NewString()
+
+	// create xendit invoice
 	inv, err := tu.PaymentGatewayData.CreateInvoice(payment_gateway.InvoiceObj{
-		Id:          strconv.Itoa(trans.Id),
-		Amount:      float64(product.Price),
-		Name:        product.Name,
-		Email:       user.Email,
+		Id:     referenceId,
+		Amount: float64(data.Price),
+		Name:   product.Name,
+		// Email:       user.Email,
 		Description: product.Name,
 		Currency:    "IDR",
 	})
@@ -58,13 +68,13 @@ func (tu *transactionUsecase) Create(data *transaction.Core) (*transaction.Core,
 		return &transaction.Core{}, err
 	}
 
-	trans.InvoiceId = inv.Id
-	trans, err = tu.TransactionData.Update(trans)
+	data.ReferenceId = referenceId
+	data.InvoiceId = inv.Id
+	data.InvoiceUrl = inv.InvoiceUrl
+	trans, err := tu.TransactionData.Create(data)
 	if err != nil {
 		return &transaction.Core{}, err
 	}
-
-	trans.InvoiceUrl = inv.InvoiceUrl
 
 	return trans, nil
 }
@@ -83,13 +93,8 @@ func (tu *transactionUsecase) UpdatePayment(callbackData transaction.XenditCallb
 		paymentMethodId = method.Id
 	}
 
-	id, err := strconv.Atoi(callbackData.TransactionId)
-	if err != nil {
-		return err
-	}
-
-	_, err = tu.TransactionData.Update(&transaction.Core{
-		Id:              id,
+	_, err := tu.TransactionData.UpdateByReferenceId(&transaction.Core{
+		ReferenceId:     callbackData.ReferenceId,
 		Status:          callbackData.Status,
 		PaymentMethodId: paymentMethodId,
 	})
