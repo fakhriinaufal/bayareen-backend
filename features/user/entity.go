@@ -27,6 +27,7 @@ type Business interface {
 	Delete(id int) error
 	Login(UserCore) (UserCore, error)
 	UpdatePassword(core UserUpdatePasswordCore) (UserCore, error)
+	UpdateProfile(UserCore) (UserCore, error)
 }
 
 type Data interface {
