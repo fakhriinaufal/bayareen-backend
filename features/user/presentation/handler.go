@@ -115,6 +115,12 @@ func (uh *UserHandler) Login(c echo.Context) error {
 }
 
 func (uh *UserHandler) UpdatePassword(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
 	var userUpdateRequest request.UserUpdatePasswordPayload
 
 	if err := c.Bind(&userUpdateRequest); err != nil {
@@ -123,7 +129,9 @@ func (uh *UserHandler) UpdatePassword(c echo.Context) error {
 		})
 	}
 
-	_, err := uh.userBussiness.UpdatePassword(userUpdateRequest.ToCore())
+	updateRequestData := userUpdateRequest.ToCore()
+	updateRequestData.ID = id
+	_, err = uh.userBussiness.UpdatePassword(updateRequestData)
 
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{

@@ -22,9 +22,9 @@ func New() *echo.Echo {
 	user.GET("/:id", presenter.UserPresenter.GetUserById)
 	user.PATCH("/:id", presenter.UserPresenter.Update)
 	user.PATCH("/:id/profile", presenter.UserPresenter.UpdateProfile)
+	user.PATCH("/:id/password", presenter.UserPresenter.UpdatePassword)
 	user.DELETE("/:id", presenter.UserPresenter.Delete)
 	user.POST("/login", presenter.UserPresenter.Login)
-	user.PATCH("/password", presenter.UserPresenter.UpdatePassword)
 
 	provider := e.Group("/providers")
 	provider.POST("", presenter.ProviderPresenter.Create)
