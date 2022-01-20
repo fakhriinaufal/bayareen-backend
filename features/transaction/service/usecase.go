@@ -1,6 +1,7 @@
 package service
 
 import (
+	"bayareen-backend/features/email"
 	"bayareen-backend/features/payment_gateway"
 	"bayareen-backend/features/paymentmethods"
 	"bayareen-backend/features/products"
@@ -18,15 +19,17 @@ type transactionUsecase struct {
 	ProductData        products.Data
 	UserData           user.Data
 	paymentMethodData  paymentmethods.Data
+	EmailService       email.Service
 }
 
-func NewTransactionUsecase(paymentGatewayData payment_gateway.Data, transactionData transaction.Data, productData products.Data, userData user.Data, paymentMethodData paymentmethods.Data) transaction.Business {
+func NewTransactionUsecase(paymentGatewayData payment_gateway.Data, transactionData transaction.Data, productData products.Data, userData user.Data, paymentMethodData paymentmethods.Data, emailService email.Service) transaction.Business {
 	return &transactionUsecase{
 		PaymentGatewayData: paymentGatewayData,
 		TransactionData:    transactionData,
 		ProductData:        productData,
 		UserData:           userData,
 		paymentMethodData:  paymentMethodData,
+		EmailService:       emailService,
 	}
 }
 
@@ -76,6 +79,17 @@ func (tu *transactionUsecase) Create(data *transaction.Core) (*transaction.Core,
 		return &transaction.Core{}, err
 	}
 
+	// send email to user's email
+	mailRequest := email.NewEmailRequest([]string{user.Email}, "Invoice Pembayaran")
+	mailData := email.NewInvoiceMailData(user.Name, trans.Price, product.Name, trans.InvoiceUrl)
+	// send email with separated goroutine
+	go func() {
+		err := errors.New("init")
+		for err != nil {
+			err = tu.EmailService.Send("./features/transaction/service/template/invoice.html", mailRequest, mailData)
+		}
+	}()
+
 	return trans, nil
 }
 
@@ -93,7 +107,7 @@ func (tu *transactionUsecase) UpdatePayment(callbackData transaction.XenditCallb
 		paymentMethodId = method.Id
 	}
 
-	_, err := tu.TransactionData.UpdateByReferenceId(&transaction.Core{
+	trans, err := tu.TransactionData.UpdateByReferenceId(&transaction.Core{
 		ReferenceId:     callbackData.ReferenceId,
 		Status:          callbackData.Status,
 		PaymentMethodId: paymentMethodId,
@@ -101,6 +115,20 @@ func (tu *transactionUsecase) UpdatePayment(callbackData transaction.XenditCallb
 	if err != nil {
 		return err
 	}
+
+	user, err := tu.UserData.GetById(trans.UserId)
+	if err != nil {
+		return err
+	}
+
+	mailRequest := email.NewEmailRequest([]string{user.Email}, "Konfirmasi Pembayaran")
+	mailData := email.NewPaymentConfirmData(user.Name, trans.Price, trans.Product.Name, callbackData.PaymentChannel, callbackData.PaymentMethod, trans.UpdatedAt)
+	go func() {
+		err := errors.New("init")
+		for err != nil {
+			err = tu.EmailService.Send("./features/transaction/service/template/payment.html", mailRequest, mailData)
+		}
+	}()
 
 	return nil
 }
