@@ -17,3 +17,17 @@ func (u *User) ToCore() user.UserCore {
 		Password:    u.Password,
 	}
 }
+
+type UserUpdatePasswordPayload struct {
+	ID          int    `json:"id"`
+	OldPassword string `json:"old_password"`
+	NewPassword string `json:"new_password"`
+}
+
+func (userUpdate *UserUpdatePasswordPayload) ToCore() user.UserUpdatePasswordCore {
+	return user.UserUpdatePasswordCore{
+		ID:          userUpdate.ID,
+		OldPassword: userUpdate.OldPassword,
+		NewPassword: userUpdate.NewPassword,
+	}
+}

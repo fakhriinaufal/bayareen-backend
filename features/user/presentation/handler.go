@@ -113,3 +113,25 @@ func (uh *UserHandler) Login(c echo.Context) error {
 		Data:    presentation_response.FromCore(&userData),
 	})
 }
+
+func (uh *UserHandler) UpdatePassword(c echo.Context) error {
+	var userUpdateRequest request.UserUpdatePasswordPayload
+
+	if err := c.Bind(&userUpdateRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	_, err := uh.userBussiness.UpdatePassword(userUpdateRequest.ToCore())
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "OK",
+	})
+}

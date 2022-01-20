@@ -110,3 +110,30 @@ func (uc *userUseCase) Login(core user.UserCore) (user.UserCore, error) {
 
 	return userData, nil
 }
+
+func (uc *userUseCase) UpdatePassword(core user.UserUpdatePasswordCore) (user.UserCore, error) {
+	if err := uc.validator.Struct(core); err != nil {
+		return user.UserCore{}, err
+	}
+
+	existedUser, err := uc.userData.GetById(core.ID)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	if !bcrypt.ValidateHash(core.OldPassword, existedUser.Password) {
+		return user.UserCore{}, errors.New("wrong old password")
+	}
+
+	existedUser.Password, err = bcrypt.Hash(core.NewPassword)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	updatedUser, err := uc.userData.Update(existedUser)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	return updatedUser, nil
+}
