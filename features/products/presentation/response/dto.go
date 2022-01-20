@@ -16,6 +16,10 @@ type Product struct {
 	UpdatedAt  time.Time `json:"updated_at"`
 }
 
+type RandomPrice struct {
+	Price int `json:"price"`
+}
+
 func FromCore(data *products.Core) *Product {
 	return &Product{
 		Id:         data.Id,
