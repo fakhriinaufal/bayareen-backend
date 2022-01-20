@@ -4,6 +4,7 @@ import (
 	"bayareen-backend/features/products"
 	_product_request "bayareen-backend/features/products/presentation/request"
 	_product_response "bayareen-backend/features/products/presentation/response"
+	"bayareen-backend/helper"
 	"bayareen-backend/helper/response"
 	"net/http"
 	"strconv"
@@ -138,5 +139,14 @@ func (ph *ProductHandler) Delete(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, response.BasicResponse{
 		Message: "success",
+	})
+}
+
+func (ph *ProductHandler) GeneratePrice(c echo.Context) error {
+	return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "success",
+		Data: _product_response.RandomPrice{
+			Price: helper.GenerateRandomNumber(50000, 700000),
+		},
 	})
 }
