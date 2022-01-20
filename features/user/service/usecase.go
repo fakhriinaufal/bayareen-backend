@@ -110,3 +110,60 @@ func (uc *userUseCase) Login(core user.UserCore) (user.UserCore, error) {
 
 	return userData, nil
 }
+
+func (uc *userUseCase) UpdatePassword(core user.UserUpdatePasswordCore) (user.UserCore, error) {
+	if err := uc.validator.Struct(core); err != nil {
+		return user.UserCore{}, err
+	}
+
+	existedUser, err := uc.userData.GetById(core.ID)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	if !bcrypt.ValidateHash(core.OldPassword, existedUser.Password) {
+		return user.UserCore{}, errors.New("wrong old password")
+	}
+
+	existedUser.Password, err = bcrypt.Hash(core.NewPassword)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	updatedUser, err := uc.userData.Update(existedUser)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	return updatedUser, nil
+}
+
+func (uc *userUseCase) UpdateProfile(core user.UserCore) (user.UserCore, error) {
+	if core.Name == "" {
+		return user.UserCore{}, errors.New("name required")
+	}
+
+	if core.PhoneNumber == "" {
+		return user.UserCore{}, errors.New("phone number required")
+	}
+
+	if core.Email == "" {
+		return user.UserCore{}, errors.New("email required")
+	}
+
+	existedUser, err := uc.userData.GetById(core.Id)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	existedUser.Name = core.Name
+	existedUser.PhoneNumber = core.PhoneNumber
+	existedUser.Email = core.Email
+
+	updatedUser, err := uc.userData.Update(existedUser)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+
+	return updatedUser, nil
+}

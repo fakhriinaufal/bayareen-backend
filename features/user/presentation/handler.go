@@ -114,6 +114,66 @@ func (uh *UserHandler) Login(c echo.Context) error {
 	})
 }
 
+func (uh *UserHandler) UpdatePassword(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+	var userUpdateRequest request.UserUpdatePasswordPayload
+
+	if err := c.Bind(&userUpdateRequest); err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	updateRequestData := userUpdateRequest.ToCore()
+	updateRequestData.ID = id
+	_, err = uh.userBussiness.UpdatePassword(updateRequestData)
+
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	return c.JSON(http.StatusOK, map[string]interface{}{
+		"message": "OK",
+	})
+}
+
+func (uh *UserHandler) UpdateProfile(c echo.Context) error {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	var updateRequest request.User
+	err = c.Bind(&updateRequest)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+
+	userData := updateRequest.ToCore()
+	userData.Id = id
+	updatedUser, err := uh.userBussiness.UpdateProfile(userData)
+  if err != nil {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+  return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "OK",
+		Data:    presentation_response.FromCore(&updatedUser),
+	})
+}
+
 func (uh *UserHandler) JWTLogin(c echo.Context) error {
 	claims := middleware.ExtractClaim(c)
 
