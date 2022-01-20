@@ -8,7 +8,6 @@ import (
 	"bayareen-backend/features/transaction"
 	"bayareen-backend/features/user"
 	"errors"
-	"log"
 	"time"
 
 	"github.com/google/uuid"
@@ -83,10 +82,13 @@ func (tu *transactionUsecase) Create(data *transaction.Core) (*transaction.Core,
 	// send email to user's email
 	mailRequest := email.NewEmailRequest([]string{user.Email}, "Invoice Pembayaran")
 	mailData := email.NewInvoiceMailData(user.Name, trans.Price, product.Name, trans.InvoiceUrl)
-	err = tu.EmailService.Send("./features/transaction/service/template/invoice.html", mailRequest, mailData)
-	if err != nil {
-		log.Println(err)
-	}
+	// send email with separated goroutine
+	go func() {
+		err := errors.New("init")
+		for err != nil {
+			err = tu.EmailService.Send("./features/transaction/service/template/invoice.html", mailRequest, mailData)
+		}
+	}()
 
 	return trans, nil
 }
@@ -121,10 +123,12 @@ func (tu *transactionUsecase) UpdatePayment(callbackData transaction.XenditCallb
 
 	mailRequest := email.NewEmailRequest([]string{user.Email}, "Konfirmasi Pembayaran")
 	mailData := email.NewPaymentConfirmData(user.Name, trans.Price, trans.Product.Name, callbackData.PaymentChannel, callbackData.PaymentMethod, trans.UpdatedAt)
-	err = tu.EmailService.Send("./features/transaction/service/template/payment.html", mailRequest, mailData)
-	if err != nil {
-		log.Println(err)
-	}
+	go func() {
+		err := errors.New("init")
+		for err != nil {
+			err = tu.EmailService.Send("./features/transaction/service/template/payment.html", mailRequest, mailData)
+		}
+	}()
 
 	return nil
 }
