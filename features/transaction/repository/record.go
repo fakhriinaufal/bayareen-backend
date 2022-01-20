@@ -13,8 +13,11 @@ type Transaction struct {
 	Id              int
 	UserId          int
 	ProductId       int
-	InvoiceId       string
 	PaymentMethodId int
+	Price           int
+	InvoiceId       string
+	InvoiceUrl      string
+	ReferenceId     string
 	Status          string
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
@@ -29,6 +32,9 @@ func (t *Transaction) ToCore() *transaction.Core {
 		ProductId:       t.ProductId,
 		PaymentMethodId: t.PaymentMethodId,
 		InvoiceId:       t.InvoiceId,
+		InvoiceUrl:      t.InvoiceUrl,
+		ReferenceId:     t.ReferenceId,
+		Price:           t.Price,
 		Status:          t.Status,
 		CreatedAt:       t.CreatedAt,
 		UpdatedAt:       t.UpdatedAt,
@@ -42,8 +48,11 @@ func FromCore(data *transaction.Core) *Transaction {
 		UserId:          data.UserId,
 		ProductId:       data.ProductId,
 		InvoiceId:       data.InvoiceId,
+		InvoiceUrl:      data.InvoiceUrl,
+		ReferenceId:     data.ReferenceId,
 		PaymentMethodId: data.PaymentMethodId,
 		Status:          data.Status,
+		Price:           data.Price,
 	}
 }
 
