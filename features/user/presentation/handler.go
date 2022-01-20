@@ -121,7 +121,7 @@ func (uh *UserHandler) UpdatePassword(c echo.Context) error {
 			Message: err.Error(),
 		})
 	}
-	var userUpdateRequest request.UserUpdatePasswordPayload
+	var userUpdateRequest presentation_request.UserUpdatePasswordPayload
 
 	if err := c.Bind(&userUpdateRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
@@ -152,7 +152,7 @@ func (uh *UserHandler) UpdateProfile(c echo.Context) error {
 		})
 	}
 
-	var updateRequest request.User
+	var updateRequest presentation_request.User
 	err = c.Bind(&updateRequest)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
@@ -163,12 +163,12 @@ func (uh *UserHandler) UpdateProfile(c echo.Context) error {
 	userData := updateRequest.ToCore()
 	userData.Id = id
 	updatedUser, err := uh.userBussiness.UpdateProfile(userData)
-  if err != nil {
+	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message: err.Error(),
 		})
 	}
-  return c.JSON(http.StatusOK, response.BasicResponse{
+	return c.JSON(http.StatusOK, response.BasicResponse{
 		Message: "OK",
 		Data:    presentation_response.FromCore(&updatedUser),
 	})
