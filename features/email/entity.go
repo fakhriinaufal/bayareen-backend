@@ -54,6 +54,6 @@ func NewPaymentConfirmData(username string, price int, product string, paymentCh
 		Price:     "RP " + fmt.Sprintf("%v", price),
 		Product:   product,
 		Payment:   fmt.Sprintf("%v - %v", paymentMethod, paymentChannel),
-		UpdatedAt: updatedAt.String(),
+		UpdatedAt: updatedAt.Format("Monday 02, January 2006 15:04 "),
 	}
 }
