@@ -11,7 +11,6 @@ type Admin struct {
 func (a *Admin) ToCore() *admins.Core {
 	return &admins.Core{
 		Name:     a.Name,
-		Email:    a.Email,
 		Password: a.Password,
 	}
 }
