@@ -10,7 +10,6 @@ import (
 type Admin struct {
 	Id        int
 	Name      string
-	Email     string
 	Password  string
 	CreatedAt time.Time
 	UpdatedAt time.Time
@@ -21,7 +20,6 @@ func (a *Admin) ToCore() *admins.Core {
 	return &admins.Core{
 		Id:        a.Id,
 		Name:      a.Name,
-		Email:     a.Email,
 		Password:  a.Password,
 		CreatedAt: a.CreatedAt,
 		UpdatedAt: a.UpdatedAt,
@@ -40,7 +38,6 @@ func FromCore(data *admins.Core) *Admin {
 	return &Admin{
 		Id:        data.Id,
 		Name:      data.Name,
-		Email:     data.Email,
 		Password:  data.Password,
 		CreatedAt: data.CreatedAt,
 		UpdatedAt: data.UpdatedAt,
