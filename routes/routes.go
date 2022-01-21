@@ -3,12 +3,17 @@ package routes
 import (
 	"bayareen-backend/config"
 	"bayareen-backend/factory"
+	"log"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 )
 
 func New() *echo.Echo {
+	JWTSecret, err := config.LoadJWTSecret(".")
+	if err != nil {
+		log.Fatal(err)
+	}
 	presenter := factory.Init()
 
 	e := echo.New()
@@ -26,7 +31,7 @@ func New() *echo.Echo {
 	user.PATCH("/:id/password", presenter.UserPresenter.UpdatePassword)
 	user.DELETE("/:id", presenter.UserPresenter.Delete)
 	user.POST("/login", presenter.UserPresenter.Login)
-	user.GET("/auth", presenter.UserPresenter.JWTLogin, middleware.JWT([]byte(config.JWT_KEY)))
+	user.GET("/auth", presenter.UserPresenter.JWTLogin, middleware.JWT([]byte(JWTSecret.Secret)))
 
 	provider := e.Group("/providers")
 	provider.POST("", presenter.ProviderPresenter.Create)
@@ -63,6 +68,8 @@ func New() *echo.Echo {
 	admin.GET("/:id", presenter.AdminPresenter.GetById)
 	admin.PATCH("/:id", presenter.AdminPresenter.Update)
 	admin.DELETE("/:id", presenter.AdminPresenter.Delete)
+	admin.POST("/login", presenter.AdminPresenter.Login)
+	admin.GET("/auth", presenter.AdminPresenter.JWTLogin, middleware.JWT([]byte(JWTSecret.Secret)))
 
 	transaction := e.Group("/transactions")
 	transaction.GET("", presenter.TransactionPresenter.GetByUserId)
