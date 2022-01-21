@@ -1,21 +1,48 @@
 package service
 
 import (
+	"bayareen-backend/config"
 	"bayareen-backend/features/admins"
+	"bayareen-backend/middleware"
+	"errors"
 
 	"github.com/go-playground/validator/v10"
 )
 
 type adminUsecase struct {
 	AdminData admins.Data
+	JWTSecret config.JWTSecret
 	validator *validator.Validate
 }
 
-func NewAdminUsecase(adminData admins.Data) admins.Business {
+func NewAdminUsecase(adminData admins.Data, jwtSecret config.JWTSecret) admins.Business {
 	return &adminUsecase{
 		AdminData: adminData,
 		validator: validator.New(),
+		JWTSecret: jwtSecret,
 	}
+}
+
+func (au *adminUsecase) Login(username, password string) (string, error) {
+	admin, err := au.AdminData.Login(username, password)
+	if err != nil {
+		return "", err
+	}
+	if admin.Name == "" && admin.Password == "" {
+		return "", errors.New("wrong credentials")
+	}
+	return middleware.CreateToken(admin.Id, true, au.JWTSecret.Secret)
+}
+
+func (au *adminUsecase) JWTLogin(id int) error {
+	admin, err := au.AdminData.GetById(id)
+	if err != nil {
+		return err
+	}
+	if admin.Name == "" && admin.Password == "" {
+		return errors.New("wrong credentials")
+	}
+	return nil
 }
 
 func (au *adminUsecase) Create(data *admins.Core) (*admins.Core, error) {
