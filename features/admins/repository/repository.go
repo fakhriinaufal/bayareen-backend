@@ -16,6 +16,15 @@ func NewPostgresUserRepository(conn *gorm.DB) admins.Data {
 	}
 }
 
+func (repo *postgresUserRepository) Login(username, password string) (*admins.Core, error) {
+	var admin Admin
+	err := repo.Conn.Where("name = ? AND password = ?", username, password).Limit(1).Find(&admin).Error
+	if err != nil {
+		return &admins.Core{}, err
+	}
+	return admin.ToCore(), nil
+}
+
 func (repo *postgresUserRepository) Create(data *admins.Core) (*admins.Core, error) {
 	record := FromCore(data)
 	if err := repo.Conn.Create(&record).Error; err != nil {
