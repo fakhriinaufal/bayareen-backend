@@ -14,11 +14,14 @@ type Admin struct {
 	UpdatedAt time.Time `json:"updated_at"`
 }
 
+type LoginToken struct {
+	Token string `json:"token"`
+}
+
 func FromCore(core *admins.Core) *Admin {
 	return &Admin{
 		Id:        core.Id,
 		Name:      core.Name,
-		Email:     core.Email,
 		Password:  core.Password,
 		CreatedAt: core.CreatedAt,
 		UpdatedAt: core.UpdatedAt,
