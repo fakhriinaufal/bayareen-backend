@@ -5,6 +5,7 @@ import (
 	provider_request "bayareen-backend/features/providers/presentation/request"
 	provider_response "bayareen-backend/features/providers/presentation/response"
 	"bayareen-backend/helper/response"
+	"bayareen-backend/middleware"
 	"net/http"
 	"strconv"
 
@@ -22,6 +23,14 @@ func NewProviderHandler(pb providers.Business) *ProviderHandler {
 }
 
 func (ph *ProviderHandler) Create(c echo.Context) error {
+	claims := middleware.ExtractClaim(c)
+	isAdmin := claims["is_admin"].(bool)
+	if !isAdmin {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	providerRequest := provider_request.Provider{}
 
 	if err := c.Bind(&providerRequest); err != nil {
@@ -100,6 +109,14 @@ func (ph *ProviderHandler) GetById(c echo.Context) error {
 }
 
 func (ph *ProviderHandler) Update(c echo.Context) error {
+	claims := middleware.ExtractClaim(c)
+	isAdmin := claims["is_admin"].(bool)
+	if !isAdmin {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
@@ -129,6 +146,14 @@ func (ph *ProviderHandler) Update(c echo.Context) error {
 }
 
 func (ph *ProviderHandler) Delete(c echo.Context) error {
+	claims := middleware.ExtractClaim(c)
+	isAdmin := claims["is_Admin"].(bool)
+	if !isAdmin {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
