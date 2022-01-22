@@ -70,12 +70,12 @@ func (uu *userUseCase) Update(data user.UserCore) (user.UserCore, error) {
 		return user.UserCore{}, err
 	}
 
-	existedUser, err := uu.userData.GetById(data.Id)
-	if err != nil {
-		return user.UserCore{}, err
-	}
+	// existedUser, err := uu.userData.GetById(data.Id)
+	// if err != nil {
+	// 	return user.UserCore{}, err
+	// }
 
-	data.CreatedAt = existedUser.CreatedAt
+	// data.CreatedAt = existedUser.CreatedAt
 
 	resp, err := uu.userData.Update(data)
 	if err != nil {

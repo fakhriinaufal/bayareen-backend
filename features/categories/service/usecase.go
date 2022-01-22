@@ -51,15 +51,14 @@ func (cu *categoryUsecase) Update(core categories.Core) (resp categories.Core, e
 		return categories.Core{}, err
 	}
 
-	existedCategory, err := cu.categoryData.GetById(core.Id)
-	if err != nil {
-		return categories.Core{}, err
-	}
+	// existedCategory, err := cu.categoryData.GetById(core.Id)
+	// if err != nil {
+	// 	return categories.Core{}, err
+	// }
 
-	core.CreatedAt = existedCategory.CreatedAt
+	// core.CreatedAt = existedCategory.CreatedAt
 
 	resp, err = cu.categoryData.Update(core)
-
 	if err != nil {
 		return categories.Core{}, err
 	}

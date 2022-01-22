@@ -82,12 +82,12 @@ func (pu *productUsecase) Update(data *products.Core) (*products.Core, error) {
 		}
 	}
 
-	existedProduct, err := pu.productData.GetById(data.Id)
-	if err != nil {
-		return &products.Core{}, err
-	}
+	// existedProduct, err := pu.productData.GetById(data.Id)
+	// if err != nil {
+	// 	return &products.Core{}, err
+	// }
 
-	data.CreatedAt = existedProduct.CreatedAt
+	// data.CreatedAt = existedProduct.CreatedAt
 
 	resp, err := pu.productData.Update(data)
 	if err != nil {
