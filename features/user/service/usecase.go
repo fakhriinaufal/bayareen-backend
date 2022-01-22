@@ -163,7 +163,7 @@ func (uc *userUseCase) UpdateProfile(core user.UserCore) (user.UserCore, error) 
 	if err != nil {
 		return user.UserCore{}, err
 	}
-	if userData.Id != 0 {
+	if userData.Id != 0 && userData.Id != core.Id {
 		return user.UserCore{}, errors.New("email already exist")
 	}
 
