@@ -58,9 +58,13 @@ type Presenter struct {
 }
 
 func Init() Presenter {
+	JWTSecret, err := config.LoadJWTSecret(".")
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	userData := _userData.NewMysqlRepository(driver.DB)
-	userUsecase := _userUsecase.NewUserUsecase(userData)
+	userUsecase := _userUsecase.NewUserUsecase(userData, JWTSecret)
 	userHandler := _userHandler.NewUserHandler(userUsecase)
 
 	providerData := _providerData.NewPostgresRepository(driver.DB)
@@ -80,7 +84,7 @@ func Init() Presenter {
 	productHandler := _productHandler.NewProductHandler(productUsecase)
 
 	adminData := _adminData.NewPostgresUserRepository(driver.DB)
-	adminUsecase := _adminUsecase.NewAdminUsecase(adminData)
+	adminUsecase := _adminUsecase.NewAdminUsecase(adminData, JWTSecret)
 	adminHandler := _adminHandler.NewAdminHandler(adminUsecase)
 
 	xenditKey, err := config.LoadXenditKey(".")

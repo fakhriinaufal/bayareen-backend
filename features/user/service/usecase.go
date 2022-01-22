@@ -1,6 +1,7 @@
 package service
 
 import (
+	"bayareen-backend/config"
 	"bayareen-backend/features/user"
 	"bayareen-backend/helper/bcrypt"
 	"bayareen-backend/middleware"
@@ -12,12 +13,14 @@ import (
 type userUseCase struct {
 	userData  user.Data
 	validator *validator.Validate
+	JWTSecret config.JWTSecret
 }
 
-func NewUserUsecase(userData user.Data) user.Business {
+func NewUserUsecase(userData user.Data, jwtSecret config.JWTSecret) user.Business {
 	return &userUseCase{
 		userData:  userData,
 		validator: validator.New(),
+		JWTSecret: jwtSecret,
 	}
 }
 
@@ -106,12 +109,11 @@ func (uc *userUseCase) Login(core user.UserCore) (user.UserCore, error) {
 		return user.UserCore{}, err
 	}
 	temp := bcrypt.ValidateHash(core.Password, userData.Password)
-
 	if !temp {
 		return user.UserCore{}, errors.New("password salah")
 	}
 
-	userData.Token, err = middleware.CreateToken(userData.Id, false)
+	userData.Token, err = middleware.CreateToken(userData.Id, false, uc.JWTSecret.Secret)
 	if err != nil {
 		return user.UserCore{}, err
 	}

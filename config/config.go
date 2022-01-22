@@ -19,6 +19,10 @@ type XenditKey struct {
 	ReadKey  string `mapstructure:"READ_KEY_XENDIT"`
 }
 
+type JWTSecret struct {
+	Secret string `mapstructure:"JWT_SECRET"`
+}
+
 func LoadXenditKey(path string) (key XenditKey, err error) {
 	viper.AddConfigPath(path)
 	viper.SetConfigFile(".env")
@@ -47,4 +51,19 @@ func LoadConfig(path string) (config Config, err error) {
 	err = viper.Unmarshal(&config)
 
 	return config, err
+}
+
+func LoadJWTSecret(path string) (secret JWTSecret, err error) {
+	viper.AddConfigPath(path)
+	viper.SetConfigFile(".env")
+
+	viper.AutomaticEnv()
+	err = viper.ReadInConfig()
+	if err != nil {
+		return JWTSecret{}, err
+	}
+
+	err = viper.Unmarshal(&secret)
+
+	return secret, err
 }
