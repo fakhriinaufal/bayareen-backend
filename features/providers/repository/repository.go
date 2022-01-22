@@ -53,11 +53,9 @@ func (repo *posgresRepository) GetById(id int) (*providers.Core, error) {
 
 func (repo *posgresRepository) Update(data *providers.Core) (*providers.Core, error) {
 	record := FromCore(data)
-
-	if err := repo.Conn.Save(record).Error; err != nil {
+	if err := repo.Conn.Model(record).Updates(record).Error; err != nil {
 		return &providers.Core{}, err
 	}
-
 	return record.ToCore(), nil
 }
 

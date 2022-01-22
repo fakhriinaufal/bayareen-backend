@@ -45,7 +45,7 @@ func (repo *posgresPaymentMethodRepository) GetById(id int) (*paymentmethods.Cor
 
 func (repo *posgresPaymentMethodRepository) Update(data *paymentmethods.Core) (*paymentmethods.Core, error) {
 	record := FromCore(data)
-	if err := repo.Conn.Save(&record).Error; err != nil {
+	if err := repo.Conn.Model(record).Updates(record).Error; err != nil {
 		return &paymentmethods.Core{}, err
 	}
 
