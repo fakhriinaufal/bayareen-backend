@@ -5,6 +5,7 @@ import (
 	category_request "bayareen-backend/features/categories/presentation/request"
 	category_response "bayareen-backend/features/categories/presentation/response"
 	"bayareen-backend/helper/response"
+	"bayareen-backend/middleware"
 	"net/http"
 	"strconv"
 
@@ -22,6 +23,14 @@ func NewCategoryHandler(cb categories.Business) *CategoryHandler {
 }
 
 func (ch *CategoryHandler) CreateCategory(c echo.Context) error {
+	claims := middleware.ExtractClaim(c)
+	isAdmin := claims["is_admin"].(bool)
+	if !isAdmin {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	categoryRequest := category_request.Category{}
 
 	err := c.Bind(&categoryRequest)
@@ -78,6 +87,14 @@ func (ch *CategoryHandler) GetCategoryById(c echo.Context) error {
 }
 
 func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
+	claims := middleware.ExtractClaim(c)
+	isAdmin := claims["is_admin"].(bool)
+	if !isAdmin {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
@@ -86,7 +103,6 @@ func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 	}
 
 	categoryRequest := category_request.Category{}
-
 	if err := c.Bind(&categoryRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message: err.Error(),
@@ -95,9 +111,7 @@ func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 
 	categoryCore := categoryRequest.ToCore()
 	categoryCore.Id = id
-
 	_, err = ch.categoryBusiness.Update(categoryCore)
-
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
 			Message: err.Error(),
@@ -108,6 +122,14 @@ func (ch *CategoryHandler) UpdateCategoryById(c echo.Context) error {
 }
 
 func (ch *CategoryHandler) DeleteCategoryById(c echo.Context) error {
+	claims := middleware.ExtractClaim(c)
+	isAdmin := claims["is_admin"].(bool)
+	if !isAdmin {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
