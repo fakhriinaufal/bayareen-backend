@@ -96,14 +96,14 @@ func (uh *UserHandler) Delete(c echo.Context) error {
 func (uh *UserHandler) Login(c echo.Context) error {
 	var user presentation_request.User
 	if err := c.Bind(&user); err != nil {
-		c.JSON(http.StatusBadRequest, response.ErrorResponse{
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message: err.Error(),
 		})
 	}
 
 	userData, err := uh.userBussiness.Login(user.ToCore())
 	if err != nil {
-		c.JSON(http.StatusBadRequest, response.ErrorResponse{
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message: err.Error(),
 		})
 	}
