@@ -37,4 +37,5 @@ type Data interface {
 	Update(data UserCore) (UserCore, error)
 	Delete(id int) error
 	Login(UserCore) (UserCore, error)
+	GetByEmail(email string) (UserCore, error)
 }

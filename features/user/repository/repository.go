@@ -72,3 +72,13 @@ func (repo *mySqlRepository) Login(data user.UserCore) (user.UserCore, error) {
 
 	return userRecord.toCore(), nil
 }
+
+func (repo *mySqlRepository) GetByEmail(email string) (user.UserCore, error) {
+	var userRecord User
+	err := repo.Conn.Where("email = ?", email).Limit(1).Find(&userRecord).Error
+	if err != nil {
+		return user.UserCore{}, nil
+	}
+
+	return userRecord.toCore(), nil
+}

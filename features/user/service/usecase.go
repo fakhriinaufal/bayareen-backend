@@ -26,6 +26,14 @@ func (uu *userUseCase) Create(data user.UserCore) (resp user.UserCore, err error
 		return user.UserCore{}, err
 	}
 
+	userData, err := uu.userData.GetByEmail(data.Email)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+	if userData.Id != 0 {
+		return user.UserCore{}, errors.New("email already exist")
+	}
+
 	data.Password, err = bcrypt.Hash(data.Password)
 	if err != nil {
 		return user.UserCore{}, err
@@ -149,6 +157,14 @@ func (uc *userUseCase) UpdateProfile(core user.UserCore) (user.UserCore, error) 
 
 	if core.Email == "" {
 		return user.UserCore{}, errors.New("email required")
+	}
+
+	userData, err := uc.userData.GetByEmail(core.Email)
+	if err != nil {
+		return user.UserCore{}, err
+	}
+	if userData.Id != 0 && userData.Id != core.Id {
+		return user.UserCore{}, errors.New("email already exist")
 	}
 
 	existedUser, err := uc.userData.GetById(core.Id)
