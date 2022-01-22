@@ -50,6 +50,14 @@ func (uh *UserHandler) GetAllUser(c echo.Context) error {
 func (uh *UserHandler) GetUserById(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 
+	claims := middleware.ExtractClaim(c)
+	jwtId := int(claims["id"].(float64))
+	if jwtId != id {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	resp, err := uh.userBussiness.GetById(id)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{Message: err.Error()})
@@ -63,8 +71,16 @@ func (uh *UserHandler) GetUserById(c echo.Context) error {
 
 func (uh *UserHandler) Update(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
-	userRequest := presentation_request.User{}
 
+	claims := middleware.ExtractClaim(c)
+	jwtId := int(claims["id"].(float64))
+	if jwtId != id {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
+	userRequest := presentation_request.User{}
 	err := c.Bind(&userRequest)
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{Message: err.Error()})
@@ -121,8 +137,16 @@ func (uh *UserHandler) UpdatePassword(c echo.Context) error {
 			Message: err.Error(),
 		})
 	}
-	var userUpdateRequest presentation_request.UserUpdatePasswordPayload
 
+	claims := middleware.ExtractClaim(c)
+	jwtId := int(claims["id"].(float64))
+	if jwtId != id {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
+	var userUpdateRequest presentation_request.UserUpdatePasswordPayload
 	if err := c.Bind(&userUpdateRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message: err.Error(),
@@ -149,6 +173,14 @@ func (uh *UserHandler) UpdateProfile(c echo.Context) error {
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message: err.Error(),
+		})
+	}
+
+	claims := middleware.ExtractClaim(c)
+	jwtId := int(claims["id"].(float64))
+	if jwtId != id {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
 		})
 	}
 
