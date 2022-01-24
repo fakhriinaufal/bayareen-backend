@@ -5,8 +5,8 @@ import (
 	"bayareen-backend/features/transaction/presentation/request"
 	_trans_response "bayareen-backend/features/transaction/presentation/response"
 	"bayareen-backend/helper/response"
+	"bayareen-backend/middleware"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -26,6 +26,14 @@ func (th *TransactionHandler) Create(c echo.Context) error {
 	if err := c.Bind(&transactionRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
 			Message: err.Error(),
+		})
+	}
+
+	claims := middleware.ExtractClaim(c)
+	jwtId := int(claims["id"].(float64))
+	if jwtId != transactionRequest.UserId {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
 		})
 	}
 
@@ -58,23 +66,31 @@ func (th *TransactionHandler) PaymentCallback(c echo.Context) error {
 	})
 }
 
-func (th *TransactionHandler) GetByUserId(c echo.Context) error {
-	userId, err := strconv.Atoi(c.QueryParam("userId"))
-	if err != nil {
-		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
-			Message: err.Error(),
-		})
-	}
+// func (th *TransactionHandler) GetByUserId(c echo.Context) error {
+// 	userId, err := strconv.Atoi(c.QueryParam("userId"))
+// 	if err != nil {
+// 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+// 			Message: err.Error(),
+// 		})
+// 	}
 
-	res, err := th.TransactionBusiness.GetByUserId(userId)
-	if err != nil {
-		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
-			Message: err.Error(),
-		})
-	}
+// 	claims := middleware.ExtractClaim(c)
+// 	jwtId := int(claims["id"].(float64))
+// 	if jwtId != userId {
+// 		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+// 			Message: "not allowed for related action",
+// 		})
+// 	}
 
-	return c.JSON(http.StatusOK, response.BasicResponse{
-		Message: "success",
-		Data:    _trans_response.ToTransactionProductsResponse(res),
-	})
-}
+// 	res, err := th.TransactionBusiness.GetByUserId(userId)
+// 	if err != nil {
+// 		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+// 			Message: err.Error(),
+// 		})
+// 	}
+
+// 	return c.JSON(http.StatusOK, response.BasicResponse{
+// 		Message: "success",
+// 		Data:    _trans_response.ToTransactionProductsResponse(res),
+// 	})
+// }

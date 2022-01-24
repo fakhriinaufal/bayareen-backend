@@ -6,6 +6,7 @@ import (
 	_product_response "bayareen-backend/features/products/presentation/response"
 	"bayareen-backend/helper"
 	"bayareen-backend/helper/response"
+	"bayareen-backend/middleware"
 	"net/http"
 	"strconv"
 
@@ -23,6 +24,14 @@ func NewProductHandler(pb products.Business) *ProductHandler {
 }
 
 func (ph *ProductHandler) Create(c echo.Context) error {
+	claims := middleware.ExtractClaim(c)
+	isAdmin := claims["is_admin"].(bool)
+	if !isAdmin {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	productRequest := _product_request.Product{}
 	if err := c.Bind(&productRequest); err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
@@ -93,6 +102,14 @@ func (ph *ProductHandler) GetById(c echo.Context) error {
 }
 
 func (ph *ProductHandler) Update(c echo.Context) error {
+	claims := middleware.ExtractClaim(c)
+	isAdmin := claims["is_admin"].(bool)
+	if !isAdmin {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
 		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
@@ -123,6 +140,14 @@ func (ph *ProductHandler) Update(c echo.Context) error {
 }
 
 func (ph *ProductHandler) Delete(c echo.Context) error {
+	claims := middleware.ExtractClaim(c)
+	isAdmin := claims["is_admin"].(bool)
+	if !isAdmin {
+		return c.JSON(http.StatusForbidden, response.ErrorResponse{
+			Message: "not allowed for related action",
+		})
+	}
+
 	var ids _product_request.Ids
 	err := c.Bind(&ids)
 	if err != nil {
