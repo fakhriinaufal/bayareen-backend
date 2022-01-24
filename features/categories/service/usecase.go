@@ -36,6 +36,24 @@ func (cu *categoryUsecase) GetAll() []categories.Core {
 	return cu.categoryData.GetAll()
 }
 
+func (cu *categoryUsecase) GetByName(name string) (categories.Core, error) {
+	var nameQuery string
+	if name == "pulsa" {
+		nameQuery = "Pulsa"
+	}
+	if name == "paket" {
+		nameQuery = "Paket"
+	}
+	if name == "pdam" {
+		nameQuery = "PDAM"
+	}
+	if name == "listrik" {
+		nameQuery = "Listrik"
+	}
+
+	return cu.categoryData.GetByName(nameQuery)
+}
+
 func (cu *categoryUsecase) GetById(id int) (categories.Core, error) {
 	resp, err := cu.categoryData.GetById(id)
 

@@ -43,10 +43,11 @@ func New() *echo.Echo {
 
 	category := e.Group("/categories")
 	category.POST("", presenter.CategoryPresenter.CreateCategory, middleware.JWT([]byte(config.JWT_KEY)))
-	category.GET("", presenter.CategoryPresenter.GetAllCategory, middleware.JWT([]byte(config.JWT_KEY)))
+	category.GET("", presenter.CategoryPresenter.GetAllCategory)
 	category.GET("/:id", presenter.CategoryPresenter.GetCategoryById, middleware.JWT([]byte(config.JWT_KEY)))
 	category.PATCH("/:id", presenter.CategoryPresenter.UpdateCategoryById, middleware.JWT([]byte(config.JWT_KEY)))
 	category.DELETE("/:id", presenter.CategoryPresenter.DeleteCategoryById, middleware.JWT([]byte(config.JWT_KEY)))
+	category.GET("/name", presenter.CategoryPresenter.GetCategoryByName, middleware.JWT([]byte(config.JWT_KEY)))
 
 	// paymentMethod := e.Group("/payment-methods")
 	// paymentMethod.POST("", presenter.PaymentMethodPresenter.Create)
