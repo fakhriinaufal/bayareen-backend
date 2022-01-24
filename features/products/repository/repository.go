@@ -40,7 +40,8 @@ func (repo *postgresProductRepository) GetById(id int) (*products.Core, error) {
 
 func (repo *postgresProductRepository) Update(data *products.Core) (*products.Core, error) {
 	record := FromCore(data)
-	if err := repo.Conn.Model(record).Updates(record).Error; err != nil {
+	err := repo.Conn.Model(record).Updates(map[string]interface{}{"name": record.Name, "price": record.Price, "status": record.Status}).Error
+	if err != nil {
 		return &products.Core{}, err
 	}
 	return record.ToCore(), nil
