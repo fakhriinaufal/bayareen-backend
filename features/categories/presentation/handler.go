@@ -86,7 +86,7 @@ func (ch *CategoryHandler) GetCategoryByName(c echo.Context) error {
 
 	return c.JSON(http.StatusOK, response.BasicResponse{
 		Message: "success",
-		Data:    resp,
+		Data:    category_response.FromCore(&resp),
 	})
 }
 
