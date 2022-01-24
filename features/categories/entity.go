@@ -16,6 +16,7 @@ type Business interface {
 	GetById(id int) (Core, error)
 	Update(Core) (Core, error)
 	Delete(id int) error
+	GetByName(name string) (Core, error)
 }
 
 type Data interface {
@@ -24,4 +25,5 @@ type Data interface {
 	GetById(id int) (Core, error)
 	Update(Core) (Core, error)
 	Delete(id int) error
+	GetByName(name string) (Core, error)
 }
