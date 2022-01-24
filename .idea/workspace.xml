@@ -5,7 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a9e5f7d1-7726-4db6-9738-8d4c9b4096c1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/features/paymentmethods/service/usecase_test.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/features/admins/service/usecase_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -56,73 +56,84 @@
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
     <property name="last_opened_file_path" value="$USER_HOME$" />
   </component>
-  <component name="RunManager" selected="Go Test.go test service">
-    <configuration name="TestDelete in bayareen-backend/features/paymentmethods/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Go Test.go test features">
+    <configuration name="TestCreate in bayareen-backend/features/admins/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bayareen-backend" />
-      <working_directory value="$PROJECT_DIR$/features/paymentmethods/service" />
+      <working_directory value="$PROJECT_DIR$/features/admins/service" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bayareen-backend/features/paymentmethods/service" />
+      <package value="bayareen-backend/features/admins/service" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestCreate\E$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="TestDelete in bayareen-backend/features/admins/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="bayareen-backend" />
+      <working_directory value="$PROJECT_DIR$/features/admins/service" />
+      <root_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="bayareen-backend/features/admins/service" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestDelete\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestGetByName in bayareen-backend/features/paymentmethods/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestGetById in bayareen-backend/features/admins/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bayareen-backend" />
-      <working_directory value="$PROJECT_DIR$/features/paymentmethods/service" />
+      <working_directory value="$PROJECT_DIR$/features/admins/service" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bayareen-backend/features/paymentmethods/service" />
+      <package value="bayareen-backend/features/admins/service" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestGetByName\E$" />
+      <pattern value="^\QTestGetById\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestUpdate in bayareen-backend/features/paymentmethods/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="TestUpdate in bayareen-backend/features/admins/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bayareen-backend" />
-      <working_directory value="$PROJECT_DIR$/features/paymentmethods/service" />
+      <working_directory value="$PROJECT_DIR$/features/admins/service" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bayareen-backend/features/paymentmethods/service" />
+      <package value="bayareen-backend/features/admins/service" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <pattern value="^\QTestUpdate\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="TestUpdate/Test_Case_2_|_Payment_method_Doesn't_exist in bayareen-backend/features/paymentmethods/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="go test bayareen-backend/features/admins/service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
       <module name="bayareen-backend" />
-      <working_directory value="$PROJECT_DIR$/features/paymentmethods/service" />
+      <working_directory value="$PROJECT_DIR$/features/admins/service" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="PACKAGE" />
-      <package value="bayareen-backend/features/paymentmethods/service" />
+      <package value="bayareen-backend/features/admins/service" />
       <directory value="$PROJECT_DIR$" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
-      <pattern value="^\QTestUpdate\E$/^\QTest_Case_2_|_Payment_method_Doesn't_exist\E$" />
       <method v="2" />
     </configuration>
-    <configuration name="go test service" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+    <configuration name="go test features" type="GoTestRunConfiguration" factoryName="Go Test" nameIsGenerated="true">
       <module name="bayareen-backend" />
-      <working_directory value="$PROJECT_DIR$/features/paymentmethods/service" />
+      <working_directory value="$PROJECT_DIR$/features" />
       <root_directory value="$PROJECT_DIR$" />
       <kind value="DIRECTORY" />
       <package value="bayareen-backend" />
-      <directory value="$PROJECT_DIR$/features/paymentmethods/service" />
+      <directory value="$PROJECT_DIR$/features" />
       <filePath value="$PROJECT_DIR$" />
       <framework value="gotest" />
       <method v="2" />
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Go Test.go test service" />
-        <item itemvalue="Go Test.TestGetByName in bayareen-backend/features/paymentmethods/service" />
-        <item itemvalue="Go Test.TestDelete in bayareen-backend/features/paymentmethods/service" />
-        <item itemvalue="Go Test.TestUpdate in bayareen-backend/features/paymentmethods/service" />
-        <item itemvalue="Go Test.TestUpdate/Test_Case_2_|_Payment_method_Doesn't_exist in bayareen-backend/features/paymentmethods/service" />
+        <item itemvalue="Go Test.TestCreate in bayareen-backend/features/admins/service" />
+        <item itemvalue="Go Test.TestUpdate in bayareen-backend/features/admins/service" />
+        <item itemvalue="Go Test.TestDelete in bayareen-backend/features/admins/service" />
+        <item itemvalue="Go Test.TestGetById in bayareen-backend/features/admins/service" />
+        <item itemvalue="Go Test.go test bayareen-backend/features/admins/service" />
       </list>
     </recent_temporary>
   </component>
@@ -147,13 +158,14 @@
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/bayareen_backend$TestGetById_in_bayareen_backend_features_categories_service.out" NAME="TestGetById in bayareen-backend/features/categories/service Coverage Results" MODIFIED="1642871542623" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bayareen_backend$TestUpdate_in_bayareen_backend_features_providers_service.out" NAME="TestUpdate in bayareen-backend/features/providers/service Coverage Results" MODIFIED="1642914370047" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/bayareen_backend$go_test_paymentmethods.out" NAME="go test paymentmethods Coverage Results" MODIFIED="1642915290332" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/bayareen_backend$go_test_paymentmethods.out" NAME="go test paymentmethods Coverage Results" MODIFIED="1642916286472" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bayareen_backend$TestDelete_in_bayareen_backend_features_paymentmethods_service.out" NAME="TestDelete in bayareen-backend/features/paymentmethods/service Coverage Results" MODIFIED="1642915951814" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bayareen_backend$go_test_bayareen_backend_features_categories_service.out" NAME="go test bayareen-backend/features/categories/service Coverage Results" MODIFIED="1642873088304" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bayareen_backend$go_test_bayareen_backend_features_providers_service.out" NAME="go test bayareen-backend/features/providers/service Coverage Results" MODIFIED="1642914178983" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/bayareen_backend$go_test_user.out" NAME="go test user Coverage Results" MODIFIED="1642979011217" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bayareen_backend$usecase_test_go.out" NAME="usecase_test.go Coverage Results" MODIFIED="1642913534763" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/bayareen_backend$go_test_service.out" NAME="go test service Coverage Results" MODIFIED="1642915818895" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/bayareen_backend$go_test_service.out" NAME="go test service Coverage Results" MODIFIED="1642916231929" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/bayareen_backend$TestCreate_in_bayareen_backend_features_providers_service.out" NAME="TestCreate in bayareen-backend/features/providers/service Coverage Results" MODIFIED="1642912193901" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/bayareen_backend$go_test_features.out" NAME="go test features Coverage Results" MODIFIED="1642914436088" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/bayareen_backend$go_test_features.out" NAME="go test features Coverage Results" MODIFIED="1642982564412" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="GoCoverage" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>
