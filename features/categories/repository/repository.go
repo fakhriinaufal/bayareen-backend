@@ -48,7 +48,7 @@ func (repo *postgreRepository) GetById(id int) (categories.Core, error) {
 func (repo *postgreRepository) Update(core categories.Core) (categories.Core, error) {
 	record := FromCore(core)
 
-	if err := repo.Conn.Save(&record).Error; err != nil {
+	if err := repo.Conn.Model(&record).Updates(&record).Error; err != nil {
 		return categories.Core{}, err
 	}
 

@@ -54,19 +54,17 @@ func (pu *providerUsecase) GetById(id int) (*providers.Core, error) {
 }
 
 func (pu *providerUsecase) Update(data *providers.Core) (*providers.Core, error) {
-	existedUser, err := pu.ProviderData.GetById(data.Id)
-	if err != nil {
+	if err := pu.Validator.Struct(data); err != nil {
 		return &providers.Core{}, err
 	}
 
-	if err = pu.Validator.Struct(data); err != nil {
-		return &providers.Core{}, err
-	}
-
-	data.CreatedAt = existedUser.CreatedAt
+	// existedUser, err := pu.ProviderData.GetById(data.Id)
+	// if err != nil {
+	// 	return &providers.Core{}, err
+	// }
+	// data.CreatedAt = existedUser.CreatedAt
 
 	resp, err := pu.ProviderData.Update(data)
-
 	if err != nil {
 		return &providers.Core{}, err
 	}

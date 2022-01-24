@@ -48,20 +48,18 @@ func (pmu *paymentMethodUsecase) GetById(id int) (*paymentmethods.Core, error) {
 }
 
 func (pmu *paymentMethodUsecase) Update(data *paymentmethods.Core) (*paymentmethods.Core, error) {
-	existedData, err := pmu.PaymentMethodData.GetById(data.Id)
+	// existedData, err := pmu.PaymentMethodData.GetById(data.Id)
 
-	if err != nil {
-		return &paymentmethods.Core{}, err
-	}
+	// if err != nil {
+	// 	return &paymentmethods.Core{}, err
+	// }
 
-	data.CreatedAt = existedData.CreatedAt
+	// data.CreatedAt = existedData.CreatedAt
 
 	resp, err := pmu.PaymentMethodData.Update(data)
-
 	if err != nil {
 		return &paymentmethods.Core{}, err
 	}
-
 	return resp, nil
 }
 
