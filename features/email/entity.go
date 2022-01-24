@@ -30,6 +30,8 @@ type Request struct {
 
 type Service interface {
 	Send(templateName string, r *Request, items interface{}) error
+	ParseTemplate(fileName string, r *Request, data interface{}) error
+	SendMail(r *Request) error
 }
 
 func NewEmailRequest(to []string, subject string) *Request {

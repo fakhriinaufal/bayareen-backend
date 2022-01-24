@@ -27,4 +27,16 @@ func TestSend(t *testing.T) {
 
 		assert.Nil(t, err)
 	})
+
+	t.Run("Test Case 2 | Template file doesn't exist", func(t *testing.T) {
+		err := emailService.ParseTemplate("lord emperror", &email.Request{}, 2)
+
+		assert.Error(t, err)
+	})
+
+	t.Run("Test Case 3 | Send email error", func(t *testing.T) {
+		err := emailService.SendMail(email.NewEmailRequest([]string{""}, "test"))
+
+		assert.Error(t, err)
+	})
 }
