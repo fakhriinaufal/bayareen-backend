@@ -2,6 +2,7 @@ package repository
 
 import (
 	"bayareen-backend/features/categories"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -30,6 +31,18 @@ func (repo *postgreRepository) GetAll() []categories.Core {
 	repo.Conn.Find(&resp)
 
 	return ToCoreSlice(&resp)
+}
+
+func (repo *postgreRepository) GetByName(name string) (categories.Core, error) {
+	resp := Category{}
+	err := repo.Conn.Where("name = ?", name).First(&resp).Error
+	if err != nil {
+		return categories.Core{}, err
+	}
+	if resp.Id == 0 {
+		return categories.Core{}, errors.New("category not found")
+	}
+	return resp.ToCore(), nil
 }
 
 func (repo *postgreRepository) GetById(id int) (categories.Core, error) {
