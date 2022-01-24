@@ -64,6 +64,32 @@ func (ch *CategoryHandler) GetAllCategory(c echo.Context) error {
 	})
 }
 
+func (ch *CategoryHandler) GetCategoryByName(c echo.Context) error {
+	categoryName := c.QueryParam("category")
+	if categoryName == "" {
+		return c.JSON(http.StatusBadRequest, response.ErrorResponse{
+			Message: "required category name",
+		})
+	}
+
+	resp, err := ch.categoryBusiness.GetByName(categoryName)
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, response.ErrorResponse{
+			Message: err.Error(),
+		})
+	}
+	if resp.Id == 0 {
+		return c.JSON(http.StatusNotFound, response.ErrorResponse{
+			Message: "category not found",
+		})
+	}
+
+	return c.JSON(http.StatusOK, response.BasicResponse{
+		Message: "success",
+		Data:    resp,
+	})
+}
+
 func (ch *CategoryHandler) GetCategoryById(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
