@@ -42,7 +42,7 @@ func New() *echo.Echo {
 	provider.DELETE("/:id", presenter.ProviderPresenter.Delete, middleware.JWT([]byte(config.JWT_KEY)))
 
 	category := e.Group("/categories")
-	category.POST("", presenter.CategoryPresenter.CreateCategory, middleware.JWT([]byte(config.JWT_KEY)))
+	category.POST("", presenter.CategoryPresenter.CreateCategory)
 	category.GET("", presenter.CategoryPresenter.GetAllCategory, middleware.JWT([]byte(config.JWT_KEY)))
 	category.GET("/:id", presenter.CategoryPresenter.GetCategoryById, middleware.JWT([]byte(config.JWT_KEY)))
 	category.PATCH("/:id", presenter.CategoryPresenter.UpdateCategoryById, middleware.JWT([]byte(config.JWT_KEY)))
