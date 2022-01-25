@@ -2,6 +2,7 @@ package repository
 
 import (
 	"bayareen-backend/features/providers"
+	"errors"
 
 	"gorm.io/gorm"
 )
@@ -18,6 +19,14 @@ func NewPostgresRepository(conn *gorm.DB) providers.Data {
 
 func (repo *posgresRepository) Create(data *providers.Core) (*providers.Core, error) {
 	record := FromCore(data)
+	var prov Provider
+	if err := repo.Conn.Find(&prov, "name = ?", record.Name).Error; err != nil {
+		return &providers.Core{}, err
+	}
+
+	if prov.Id != 0 {
+		return &providers.Core{}, errors.New("provider already exist")
+	}
 
 	if err := repo.Conn.Create(record).Error; err != nil {
 		return &providers.Core{}, err
