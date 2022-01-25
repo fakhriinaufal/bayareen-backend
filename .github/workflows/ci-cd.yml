@@ -30,6 +30,8 @@ jobs:
         echo "DB_PASS=$DB_PASSWORD" >> .env
         echo "DB_NAME=$DB_NAME" >> .env
         echo "$CONFIG_TOML" >> config/config.toml
+        cd config
+        ls
     - name: Build the Docker image
       run: docker build -t fakhriinaufal/bayareen-backend:latest .
     - name: login docker hub
