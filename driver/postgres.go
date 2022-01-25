@@ -21,10 +21,10 @@ var DB *gorm.DB
 func MigrateDB() {
 	DB.AutoMigrate(&_adminRepo.Admin{})
 	DB.AutoMigrate(&_userRepo.User{})
-	DB.AutoMigrate(&_providerRepo.Provider{})
 	DB.AutoMigrate(&_categoryRepo.Category{})
-	DB.AutoMigrate(&_paymentMethodRepo.PaymentMethod{})
+	DB.AutoMigrate(&_providerRepo.Provider{})
 	DB.AutoMigrate(&_productRepo.Product{})
+	DB.AutoMigrate(&_paymentMethodRepo.PaymentMethod{})
 	DB.AutoMigrate(&_transactionRepo.Transaction{})
 }
 
