@@ -11,5 +11,5 @@ COPY --from=builder /app/main .
 RUN mkdir config
 COPY --from=builder /app/config/config.toml ./config
 RUN mkdir -p features/transaction/service/template
-COPY --from=builder /app/features/transaction/service/template/*.html ./features/transaction/service/template
+COPY --from=builder /app/features/transaction/service/template/*.html ./features/transaction/service/template/
 CMD ["./main"]
