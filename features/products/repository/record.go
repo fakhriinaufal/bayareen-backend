@@ -16,8 +16,8 @@ type Product struct {
 	Name       string
 	Price      int
 	Status     bool
-	Category   cat_repo.Category
-	Provider   prov_repo.Provider
+	Category   cat_repo.Category  `gorm:"foreignKey:CatId"`
+	Provider   prov_repo.Provider `gorm:"foreignKey:ProviderId"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 	DeletedAt  gorm.DeletedAt
