@@ -14,7 +14,7 @@ type User struct {
 	PhoneNumber  string
 	Email        string
 	Password     string
-	Transactions trans_repo.Transaction
+	Transactions []trans_repo.Transaction
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 	DeletedAt    gorm.DeletedAt `gorm:"index"`
