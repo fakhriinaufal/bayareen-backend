@@ -10,4 +10,6 @@ COPY --from=builder /app/.env .
 COPY --from=builder /app/main .
 RUN mkdir config
 COPY --from=builder /app/config/config.toml ./config
+RUN mkdir -p features/transaction/service/template
+COPY --from=builder /app/config/*.html ./features/transaction/service/template
 CMD ["./main"]
