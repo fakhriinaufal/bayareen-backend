@@ -1,7 +1,9 @@
 package repository
 
 import (
+	cat_repo "bayareen-backend/features/categories/repository"
 	"bayareen-backend/features/products"
+	prov_repo "bayareen-backend/features/providers/repository"
 	"time"
 
 	"gorm.io/gorm"
@@ -14,6 +16,8 @@ type Product struct {
 	Name       string
 	Price      int
 	Status     bool
+	Category   cat_repo.Category
+	Provider   prov_repo.Provider
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 	DeletedAt  gorm.DeletedAt
