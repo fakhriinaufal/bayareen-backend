@@ -1,6 +1,7 @@
 package data
 
 import (
+	trans_repo "bayareen-backend/features/transaction/repository"
 	"bayareen-backend/features/user"
 	"time"
 
@@ -8,14 +9,15 @@ import (
 )
 
 type User struct {
-	Id          int
-	Name        string
-	PhoneNumber string
-	Email       string
-	Password    string
-	CreatedAt   time.Time
-	UpdatedAt   time.Time
-	DeletedAt   gorm.DeletedAt `gorm:"index"`
+	Id           int
+	Name         string
+	PhoneNumber  string
+	Email        string
+	Password     string
+	Transactions trans_repo.Transaction
+	CreatedAt    time.Time
+	UpdatedAt    time.Time
+	DeletedAt    gorm.DeletedAt `gorm:"index"`
 }
 
 func (u *User) toCore() user.UserCore {
