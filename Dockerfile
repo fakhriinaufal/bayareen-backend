@@ -8,5 +8,6 @@ FROM alpine:3.14
 WORKDIR /app
 COPY --from=builder /app/.env .
 COPY --from=builder /app/main .
+RUN mkdir config
 COPY --from=builder /app/config/config.toml ./config
 CMD ["./main"]
