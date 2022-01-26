@@ -15,6 +15,11 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: actions/checkout@v2
+      - name: bring required file for email test
+        env:
+          CONFIG_TOML: ${{ secrets.CONFIG_TOML }}
+        run: |
+          echo "$CONFIG_TOML" >> config/config.toml
       - name: setup go
         uses: actions/setup-go@v2
         with:
