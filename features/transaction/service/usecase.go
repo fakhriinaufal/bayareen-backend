@@ -132,11 +132,3 @@ func (tu *transactionUsecase) UpdatePayment(callbackData transaction.XenditCallb
 
 	return nil
 }
-
-func (tu *transactionUsecase) GetByUserId(userId int) ([]transaction.Core, error) {
-	transaction, err := tu.TransactionData.GetByUserId(userId)
-	if err != nil {
-		return nil, err
-	}
-	return transaction, nil
-}
