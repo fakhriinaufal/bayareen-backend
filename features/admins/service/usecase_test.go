@@ -1,14 +1,17 @@
 package service_test
 
 import (
+	"bayareen-backend/config"
 	"bayareen-backend/features/admins"
 	mockAdminRepo "bayareen-backend/features/admins/mocks"
 	"bayareen-backend/features/admins/service"
+	"bayareen-backend/middleware"
 	"errors"
+	"testing"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"testing"
 )
 
 var (
@@ -16,17 +19,40 @@ var (
 	adminService admins.Business
 	adminCore    *admins.Core
 	validate     *validator.Validate
+	jwtSecret    config.JWTSecret
 )
 
 func setup() {
-	adminService = service.NewAdminUsecase(&adminRepo)
+	jwtSecret = config.JWTSecret{Secret: "lorem123"}
+	adminService = service.NewAdminUsecase(&adminRepo, jwtSecret)
 	validate = validator.New()
 	adminCore = &admins.Core{
 		Id:       1,
 		Name:     "Mr Admin",
-		Email:    "john@admin.com",
 		Password: "apple",
 	}
+}
+
+func TestLogin(t *testing.T) {
+	setup()
+
+	adminRepo.On("Login", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(adminCore, nil).Once()
+	adminRepo.On("Login", mock.AnythingOfType("string"), mock.AnythingOfType("string")).Return(&admins.Core{}, nil).Once()
+
+	t.Run("Test Case 1 | Success login", func(t *testing.T) {
+		result, err := adminService.Login("lorem", "ipsum")
+
+		tokenResult, _ := middleware.CreateToken(1, true, jwtSecret.Secret)
+		assert.Equal(t, tokenResult, result)
+		assert.Nil(t, err)
+	})
+
+	t.Run("Test Case 2 | Wrong credentials", func(t *testing.T) {
+		result, err := adminService.Login("lorem", "ipsum")
+
+		assert.Equal(t, "", result)
+		assert.Equal(t, errors.New("wrong credentials"), err)
+	})
 }
 
 func TestCreate(t *testing.T) {

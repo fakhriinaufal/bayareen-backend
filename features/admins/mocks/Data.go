@@ -86,6 +86,29 @@ func (_m *Data) GetById(id int) (*admins.Core, error) {
 	return r0, r1
 }
 
+// Login provides a mock function with given fields: username, password
+func (_m *Data) Login(username string, password string) (*admins.Core, error) {
+	ret := _m.Called(username, password)
+
+	var r0 *admins.Core
+	if rf, ok := ret.Get(0).(func(string, string) *admins.Core); ok {
+		r0 = rf(username, password)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).(*admins.Core)
+		}
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string, string) error); ok {
+		r1 = rf(username, password)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Update provides a mock function with given fields: data
 func (_m *Data) Update(data *admins.Core) (*admins.Core, error) {
 	ret := _m.Called(data)
