@@ -23,12 +23,18 @@ jobs:
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_NAME: ${{ secrets.DB_NAME }}
         CONFIG_TOML: ${{ secrets.CONFIG_TOML }}
+        READ_KEY_XENDIT: ${{ secrets.READ_KEY_XENDIT }}
+        WRITE_KEY_XENDIT: ${{ secrets.WRITE_KEY_XENDIT }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
       run: |
         echo "DB_HOST=$DB_HOST" > .env
         echo "DB_PORT=$DB_PORT" >> .env
         echo "DB_USER=$DB_USERNAME" >> .env
         echo "DB_PASS=$DB_PASSWORD" >> .env
         echo "DB_NAME=$DB_NAME" >> .env
+        echo "READ_KEY_XENDIT=$READ_KEY_XENDIT" >> .env
+        echo "WRITE_KEY_XENDIT=$WRITE_KEY_XENDIT" >> .env
+        echo "JWT_SECRET=$JWT_SECRET" >> .env
         echo "$CONFIG_TOML" >> config/config.toml
         cd config
         ls
