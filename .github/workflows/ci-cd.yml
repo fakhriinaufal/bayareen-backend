@@ -36,8 +36,7 @@ jobs:
         echo "WRITE_KEY_XENDIT=$WRITE_KEY_XENDIT" >> .env
         echo "JWT_SECRET=$JWT_SECRET" >> .env
         echo "$CONFIG_TOML" >> config/config.toml
-        cd config
-        ls
+        cat .env
     - name: Build the Docker image
       run: docker build -t fakhriinaufal/bayareen-backend:latest .
     - name: login docker hub
