@@ -19,6 +19,7 @@ jobs:
         env:
           CONFIG_TOML: ${{ secrets.CONFIG_TOML }}
         run: |
+          pwd
           echo "$CONFIG_TOML" >> config/config.toml
       - name: setup go
         uses: actions/setup-go@v2
