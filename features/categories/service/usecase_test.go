@@ -5,11 +5,12 @@ import (
 	mockCategoryRepo "bayareen-backend/features/categories/mocks"
 	categoryService "bayareen-backend/features/categories/service"
 	"errors"
+	"testing"
+	"time"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"testing"
-	"time"
 )
 
 var (
@@ -73,6 +74,40 @@ func TestGetAll(t *testing.T) {
 	})
 }
 
+func TestGetByName(t *testing.T) {
+	setup()
+
+	categoryRepo.On("GetByName", mock.AnythingOfType("string")).Return(categoryCore, nil).Times(4)
+
+	t.Run("Test Case 1 | pulsa", func(t *testing.T) {
+		result, err := categoryServiceVar.GetByName("pulsa")
+
+		assert.Equal(t, categoryCore, result)
+		assert.Nil(t, err)
+	})
+
+	t.Run("Test Case 1 | paket", func(t *testing.T) {
+		result, err := categoryServiceVar.GetByName("paket")
+
+		assert.Equal(t, categoryCore, result)
+		assert.Nil(t, err)
+	})
+
+	t.Run("Test Case 1 | pdam", func(t *testing.T) {
+		result, err := categoryServiceVar.GetByName("pdam")
+
+		assert.Equal(t, categoryCore, result)
+		assert.Nil(t, err)
+	})
+
+	t.Run("Test Case 1 | listrik", func(t *testing.T) {
+		result, err := categoryServiceVar.GetByName("listrik")
+
+		assert.Equal(t, categoryCore, result)
+		assert.Nil(t, err)
+	})
+}
+
 func TestGetById(t *testing.T) {
 	setup()
 	categoryRepo.On("GetById", mock.AnythingOfType("int")).Return(categoryCore, nil).Once()
@@ -99,8 +134,6 @@ func TestUpdate(t *testing.T) {
 	categoryRepo.On("GetById", mock.AnythingOfType("int")).Return(categoryCore, nil).Once()
 	categoryRepo.On("Update", mock.AnythingOfType("categories.Core")).Return(categoryCore, nil).Once()
 
-	categoryRepo.On("GetById", mock.AnythingOfType("int")).Return(categories.Core{}, errors.New("category doesn't exist")).Once()
-
 	categoryRepo.On("GetById", mock.AnythingOfType("int")).Return(categoryCore, nil).Once()
 	categoryRepo.On("Update", mock.AnythingOfType("categories.Core")).Return(categories.Core{}, errors.New("error updating")).Once()
 
@@ -121,14 +154,7 @@ func TestUpdate(t *testing.T) {
 		assert.Equal(t, badInputErr.Error(), err.Error())
 	})
 
-	t.Run("Test Case 3 | Category doesn't exist", func(t *testing.T) {
-		result, err := categoryServiceVar.Update(categoryCore)
-
-		assert.Equal(t, categories.Core{}, result)
-		assert.Equal(t, errors.New("category doesn't exist"), err)
-	})
-
-	t.Run("Test Case 4 | Update failed", func(t *testing.T) {
+	t.Run("Test Case 3 | Update failed", func(t *testing.T) {
 		result, err := categoryServiceVar.Update(categoryCore)
 
 		assert.Equal(t, categories.Core{}, result)

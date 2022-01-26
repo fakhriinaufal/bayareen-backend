@@ -82,6 +82,27 @@ func (_m *Data) GetById(id int) (categories.Core, error) {
 	return r0, r1
 }
 
+// GetByName provides a mock function with given fields: name
+func (_m *Data) GetByName(name string) (categories.Core, error) {
+	ret := _m.Called(name)
+
+	var r0 categories.Core
+	if rf, ok := ret.Get(0).(func(string) categories.Core); ok {
+		r0 = rf(name)
+	} else {
+		r0 = ret.Get(0).(categories.Core)
+	}
+
+	var r1 error
+	if rf, ok := ret.Get(1).(func(string) error); ok {
+		r1 = rf(name)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Update provides a mock function with given fields: _a0
 func (_m *Data) Update(_a0 categories.Core) (categories.Core, error) {
 	ret := _m.Called(_a0)
