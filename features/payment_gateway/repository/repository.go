@@ -25,8 +25,8 @@ func (pr *PaymentGatewayRepository) CreateInvoice(inv payment_gateway.InvoiceObj
 	data := invoice.CreateParams{
 		ExternalID:         inv.Id,
 		Amount:             inv.Amount,
-		SuccessRedirectURL: "http://localhost:3000",
-		FailureRedirectURL: "http://localhost:3000",
+		SuccessRedirectURL: "https://bayareen.my.id",
+		FailureRedirectURL: "https://bayareen.my.id",
 		Currency:           inv.Currency,
 		PayerEmail:         inv.Email,
 		ShouldSendEmail:    &shouldSendEmail,
