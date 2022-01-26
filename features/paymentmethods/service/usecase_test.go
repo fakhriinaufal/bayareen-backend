@@ -5,10 +5,11 @@ import (
 	mockPaymentMethodRepo "bayareen-backend/features/paymentmethods/mocks"
 	"bayareen-backend/features/paymentmethods/service"
 	"errors"
+	"testing"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"testing"
 )
 
 var (
@@ -96,12 +97,8 @@ func TestGetById(t *testing.T) {
 func TestUpdate(t *testing.T) {
 	setup()
 
-	paymentMethodRepo.On("GetById", mock.AnythingOfType("int")).Return(paymentMethodCore, nil).Once()
 	paymentMethodRepo.On("Update", mock.AnythingOfType("*paymentmethods.Core")).Return(paymentMethodCore, nil).Once()
 
-	paymentMethodRepo.On("GetById", mock.AnythingOfType("int")).Return(&paymentmethods.Core{}, errors.New("payment method doesn't exist")).Once()
-
-	paymentMethodRepo.On("GetById", mock.AnythingOfType("int")).Return(paymentMethodCore, nil).Once()
 	paymentMethodRepo.On("Update", mock.AnythingOfType("*paymentmethods.Core")).Return(&paymentmethods.Core{}, errors.New("error happened")).Once()
 
 	t.Run("Test Case 1 | Success create", func(t *testing.T) {
@@ -111,14 +108,7 @@ func TestUpdate(t *testing.T) {
 		assert.Nil(t, err)
 	})
 
-	t.Run("Test Case 2 | Payment method Doesn't exist", func(t *testing.T) {
-		result, err := paymentMethodService.Update(paymentMethodCore)
-
-		assert.Equal(t, &paymentmethods.Core{}, result)
-		assert.Equal(t, errors.New("payment method doesn't exist"), err)
-	})
-
-	t.Run("Test Case 3 | Error from database", func(t *testing.T) {
+	t.Run("Test Case 2 | Error from database", func(t *testing.T) {
 		result, err := paymentMethodService.Update(paymentMethodCore)
 
 		assert.Equal(t, &paymentmethods.Core{}, result)
