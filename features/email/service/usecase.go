@@ -32,17 +32,17 @@ func NewEmailService(path string) email.Service {
 }
 
 func (es *EmailService) Send(templateName string, r *email.Request, items interface{}) error {
-	err := es.parseTemplate(templateName, r, items)
+	err := es.ParseTemplate(templateName, r, items)
 	if err != nil {
 		log.Fatal(err)
 	}
-	if err = es.sendMail(r); err != nil {
+	if err = es.SendMail(r); err != nil {
 		return err
 	}
 	return nil
 }
 
-func (es *EmailService) sendMail(r *email.Request) error {
+func (es *EmailService) SendMail(r *email.Request) error {
 	body := "To: " + r.To[0] + "\r\nSubject: " + r.Subject + "\r\n" + MIME + "\r\n" + r.Body
 	SMTP := fmt.Sprintf("%s:%d", es.Server, es.Port)
 	if err := smtp.SendMail(SMTP, smtp.PlainAuth("", es.Email, es.Password, es.Server), es.Email, r.To, []byte(body)); err != nil {
@@ -51,7 +51,7 @@ func (es *EmailService) sendMail(r *email.Request) error {
 	return nil
 }
 
-func (es *EmailService) parseTemplate(fileName string, r *email.Request, data interface{}) error {
+func (es *EmailService) ParseTemplate(fileName string, r *email.Request, data interface{}) error {
 	t, err := template.ParseFiles(fileName)
 	if err != nil {
 		return err

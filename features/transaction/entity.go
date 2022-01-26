@@ -38,5 +38,4 @@ type Data interface {
 type Business interface {
 	Create(*Core) (*Core, error)
 	UpdatePayment(XenditCallback) error
-	GetByUserId(userId int) ([]Core, error)
 }
