@@ -5,10 +5,11 @@ import (
 	mockProviderRepo "bayareen-backend/features/providers/mocks"
 	"bayareen-backend/features/providers/service"
 	"errors"
+	"testing"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"testing"
 )
 
 var (
@@ -110,14 +111,8 @@ func TestGetById(t *testing.T) {
 
 func TestUpdate(t *testing.T) {
 	setup()
-	providerRepo.On("GetById", mock.AnythingOfType("int")).Return(providerCore, nil).Once()
 	providerRepo.On("Update", mock.AnythingOfType("*providers.Core")).Return(providerCore, nil).Once()
 
-	providerRepo.On("GetById", mock.AnythingOfType("int")).Return(&providers.Core{}, errors.New("provider doesn't exist")).Once()
-
-	providerRepo.On("GetById", mock.AnythingOfType("int")).Return(providerCore, nil).Once()
-
-	providerRepo.On("GetById", mock.AnythingOfType("int")).Return(providerCore, nil).Once()
 	providerRepo.On("Update", mock.AnythingOfType("*providers.Core")).Return(&providers.Core{}, errors.New("error happened")).Once()
 
 	t.Run("Test Case 1 | Success Update", func(t *testing.T) {
@@ -125,13 +120,6 @@ func TestUpdate(t *testing.T) {
 
 		assert.Equal(t, providerCore, result)
 		assert.Nil(t, err)
-	})
-
-	t.Run("Test Case 2 | Provider doesn't exist", func(t *testing.T) {
-		result, err := providerService.Update(providerCore)
-
-		assert.Equal(t, &providers.Core{}, result)
-		assert.Equal(t, errors.New("provider doesn't exist"), err)
 	})
 
 	t.Run("Test Case 3 | Missing field", func(t *testing.T) {
