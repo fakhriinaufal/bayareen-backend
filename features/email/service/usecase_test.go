@@ -14,7 +14,7 @@ var (
 )
 
 func setup() {
-	emailService = service.NewEmailService("./config/config.toml")
+	emailService = service.NewEmailService("../../../config/config.toml")
 	emailRequest = email.NewEmailRequest([]string{"fha.naufal06@gmail.com"}, "Test Email")
 	emailData = email.NewInvoiceMailData("lorem", 20000, "mango", "http://google.com")
 }
