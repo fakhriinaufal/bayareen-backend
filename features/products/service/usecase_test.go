@@ -9,10 +9,11 @@ import (
 	"bayareen-backend/features/providers"
 	mockProviderData "bayareen-backend/features/providers/mocks"
 	"errors"
+	"testing"
+
 	"github.com/go-playground/validator/v10"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
-	"testing"
 )
 
 var (
@@ -124,7 +125,6 @@ func TestUpdate(t *testing.T) {
 
 	categoryRepo.On("GetById", mock.AnythingOfType("int")).Return(categories.Core{}, nil).Once()
 	providerRepo.On("GetById", mock.AnythingOfType("int")).Return(&providers.Core{}, nil).Once()
-	productRepo.On("GetById", mock.AnythingOfType("int")).Return(productCore, nil).Once()
 	productRepo.On("Update", mock.AnythingOfType("*products.Core")).Return(productCore, nil).Once()
 
 	categoryRepo.On("GetById", mock.AnythingOfType("int")).Return(categories.Core{}, errors.New("category doesn't exist")).Once()
@@ -134,11 +134,9 @@ func TestUpdate(t *testing.T) {
 
 	categoryRepo.On("GetById", mock.AnythingOfType("int")).Return(categories.Core{}, nil).Once()
 	providerRepo.On("GetById", mock.AnythingOfType("int")).Return(&providers.Core{}, nil).Once()
-	productRepo.On("GetById", mock.AnythingOfType("int")).Return(productCore, errors.New("product doesn't exist")).Once()
 
 	categoryRepo.On("GetById", mock.AnythingOfType("int")).Return(categories.Core{}, nil).Once()
 	providerRepo.On("GetById", mock.AnythingOfType("int")).Return(&providers.Core{}, nil).Once()
-	productRepo.On("GetById", mock.AnythingOfType("int")).Return(productCore, nil).Once()
 	productRepo.On("Update", mock.AnythingOfType("*products.Core")).Return(productCore, errors.New("error happened")).Once()
 
 	t.Run("Test Case 1 | Success Update Product", func(t *testing.T) {
@@ -170,14 +168,6 @@ func TestUpdate(t *testing.T) {
 
 		assert.Equal(t, &products.Core{}, result)
 		assert.Equal(t, errors.New("provider doesn't exist"), err)
-
-	})
-
-	t.Run("Test Case 5 | Product Doesn't exist", func(t *testing.T) {
-		result, err := productService.Update(productCore)
-
-		assert.Equal(t, &products.Core{}, result)
-		assert.Equal(t, errors.New("product doesn't exist"), err)
 
 	})
 
