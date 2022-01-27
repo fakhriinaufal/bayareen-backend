@@ -80,6 +80,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            docker container stop bayareen-backend
             docker container rm bayareen-backend
             docker image rm fakhriinaufal/bayareen-backend:latest
             docker pull fakhriinaufal/bayareen-backend:latest
