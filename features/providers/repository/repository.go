@@ -20,7 +20,7 @@ func NewPostgresRepository(conn *gorm.DB) providers.Data {
 func (repo *posgresRepository) Create(data *providers.Core) (*providers.Core, error) {
 	record := FromCore(data)
 	var prov Provider
-	if err := repo.Conn.Find(&prov, "name = ?", record.Name).Error; err != nil {
+	if err := repo.Conn.Find(&prov, "name = ? AND cat_id = ?", record.Name, record.CatId).Error; err != nil {
 		return &providers.Core{}, err
 	}
 
