@@ -87,4 +87,3 @@ jobs:
             docker create --name bayareen-backend -p "${{ secrets.APP_PORT }}":"${{ secrets.APP_PORT }}" --expose="${{ secrets.APP_PORT }}" fakhriinaufal/bayareen-backend:latest
             docker network connect bayareen-network bayareen-backend
             docker container start bayareen-backend
-  
