@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayareen Invoice</title>
+    <style>
+        .brand-logo {
+            color: #83C5BE; 
+            font-family: 'Rancho', cursive;
+            margin: 0;
+            padding: 0;
+            margin-bottom: 10px;
+        }
+        .btn {
+            background-color: #006D77;
+            color: white;
+            padding: 10px;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .container {
+            border: 1px solid gray;
+            border-radius: 5px;
+            padding: 20px;
+            width: 50%;
+            margin: 0 auto;
+        }
+        .hello {
+            color: black;
+            margin-bottom: 5px;
+        }
+        .sub-hello {
+            font-size: 16px;
+        }
+        .detail {
+            color: black;
+            background-color: #E5E5E5;
+            border-radius: 10px;
+        }
+        .detail-list {
+            font-size: 14px;
+            color: #616161;
+        }
+        ul {
+            padding: 0;
+        }
+        p {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="brand-logo">Bayareen</h1>
+        <p class="hello">Halo <b>{{.Username}}</b></p>
+        <p class="sub-hello">Segera selesaikan pembelian kamu kamu dengan melakukan pembayaran.
+        </p>
+        <p style="margin-top: 15px;">Detail Pembelian : </p>
+        <p class="detail">
+            <ul style="background-color: #E5E5E5;padding:10px;">
+                <li class="detail-list">Total Pembayaran : <b>{{.Price}}</b></li>
+                <li class="detail-list">Produk : <b>{{ .Product }}</b></li>
+            </ul>
+        </p>
+        <p style="margin-top: 20px;"><a style="color: white;padding: 10px 20px;font-size: 16px;" class="btn" href="{{ .InvoiceUrl }}">Bayar Sekarang</a></p>
+    </div>
+</body>
+</html>

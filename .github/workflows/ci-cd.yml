@@ -10,9 +10,28 @@ on:
       - dev
 
 jobs:
-  
+  unit-test:
+    name: "unit test"
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v2
+      - name: bring required file for email test
+        env:
+          CONFIG_TOML: ${{ secrets.CONFIG_TOML }}
+        run: |
+          pwd
+          echo "$CONFIG_TOML" >> config/config.toml
+      - name: setup go
+        uses: actions/setup-go@v2
+        with:
+          go-version: 1.17.3
+      - name: running unit test
+        run: go test ./... -cover
+
+
   build:
     runs-on: ubuntu-latest
+    needs: unit-test
     steps:
     - uses: actions/checkout@v2
     - name : create env
@@ -22,12 +41,21 @@ jobs:
         DB_USERNAME: ${{ secrets.DB_USERNAME }}
         DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
         DB_NAME: ${{ secrets.DB_NAME }}
+        CONFIG_TOML: ${{ secrets.CONFIG_TOML }}
+        READ_KEY_XENDIT: ${{ secrets.READ_KEY_XENDIT }}
+        WRITE_KEY_XENDIT: ${{ secrets.WRITE_KEY_XENDIT }}
+        JWT_SECRET: ${{ secrets.JWT_SECRET }}
       run: |
-        echo "$DB_HOST" > .env
-        echo "$DB_PORT" >> .env
-        echo "$DB_USERNAME" >> .env
-        echo "$DB_PASSWORD" >> .env
-        echo "$DB_NAME" >> .env
+        echo "DB_HOST=$DB_HOST" > .env
+        echo "DB_PORT=$DB_PORT" >> .env
+        echo "DB_USER=$DB_USERNAME" >> .env
+        echo "DB_PASS=$DB_PASSWORD" >> .env
+        echo "DB_NAME=$DB_NAME" >> .env
+        echo "READ_KEY_XENDIT=$READ_KEY_XENDIT" >> .env
+        echo "WRITE_KEY_XENDIT=$WRITE_KEY_XENDIT" >> .env
+        echo "JWT_SECRET=$JWT_SECRET" >> .env
+        echo "$CONFIG_TOML" >> config/config.toml
+        cat .env
     - name: Build the Docker image
       run: docker build -t fakhriinaufal/bayareen-backend:latest .
     - name: login docker hub
@@ -52,10 +80,10 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
           script: |
+            docker container stop bayareen-backend
             docker container rm bayareen-backend
             docker image rm fakhriinaufal/bayareen-backend:latest
             docker pull fakhriinaufal/bayareen-backend:latest
-            docker create --name bayareen-backend -p {{ secrets.APP_PORT }}:{{ secrets.APP_PORT }} --expose=[{{ secrets.APP_PORT }}] fakhriinaufal/bayareen-backend:latest
+            docker create --name bayareen-backend -p "${{ secrets.APP_PORT }}":"${{ secrets.APP_PORT }}" --expose="${{ secrets.APP_PORT }}" fakhriinaufal/bayareen-backend:latest
             docker network connect bayareen-network bayareen-backend
-            docker container start bayareen-backend -d
-  
+            docker container start bayareen-backend
